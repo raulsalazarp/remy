@@ -50,6 +50,14 @@ function App() {
 
   const handleSaveNote = () => {
     setSavedNotes([...savedNotes, note])
+    // send 'note' field to the backend 
+    fetch('http://localhost:5001/text-input', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ note })
+    })
     setNote('')
   }
 
