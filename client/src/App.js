@@ -6,6 +6,7 @@ import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/navbar";
 import Home from './pages/home';
 import Test from './pages/test';
+import Landing from './pages/landing';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
@@ -98,9 +99,9 @@ const App = () => {
         padding: 0px;
       }
     `}</style>
-     <Navbar />
      <Routes>
-       <Route exact path="/" element={<Home />} />
+       <Route exact path="/" element={<Landing />} />
+       <Route path="/home" element={<Home />} />
        <Route path="/test" element={<Test />} />
      </Routes>
    </ThemeProvider>

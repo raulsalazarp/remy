@@ -3,6 +3,7 @@ import {FormControl, InputLabel, Select, MenuItem, Grid, Toolbar, Box, Typograph
 import MuiBox from '@mui/material/Box';
 import {styled} from '@mui/material/styles';
 import Filter from "../components/filter";
+import Navbar from '../components/navbar';
 
 const Main = styled((props) => (
 	<MuiBox component="main" {...props} />
@@ -16,7 +17,7 @@ export default function Home() {
 
     return (
         <>
-            <div>Hi</div>
+            <Navbar />
             <Filter />
             <Main>
                 <Grid container>

@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/PersonRounded';
 import HomeIcon from '@mui/icons-material/HomeRounded';
+import { bool } from 'prop-types';
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -20,13 +21,16 @@ const AppBar = styled(MuiAppBar, {
   })
 }));
 
-export default function ButtonAppBar() {
+export default function Navbar({transparent}) {
 
   const theme = useTheme();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" style={{ background: '#ffffff', zIndex: theme.zIndex.drawer + 1 }} elevation={1}>
+      <AppBar
+        position="fixed"
+        style={{ background: transparent ? "transparent" : "#FFFFFF", zIndex: theme.zIndex.drawer + 1 }}
+        elevation={transparent ? 0 : 1}>
         <Toolbar sx={{display: "flex", justifyContent: "space-between"}}>
           <Typography variant="h6" component="div" color="primary" fontWeight="bold">
             Remy
@@ -44,4 +48,12 @@ export default function ButtonAppBar() {
       </AppBar>
     </Box>
   );
+}
+
+Navbar.propTypes = {
+    transparent: bool
+}
+
+Navbar.defaultProps = {
+    transparent: false
 }
