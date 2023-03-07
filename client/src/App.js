@@ -1,121 +1,110 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
+import { Route, Routes } from "react-router-dom";
 
-// const SpeechRecognition =
-//   window.SpeechRecognition || window.webkitSpeechRecognition
-// // const mic = new window.SpeechRecognition() || window.webkitSpeechRecognition()
+// We import all the components we need in our app
+import Navbar from "./components/navbar";
+import Home from './pages/home';
+import Test from './pages/test';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-const SpeechRecognition =
-  window.SpeechRecognition || window.webkitSpeechRecognition
-const mic = new SpeechRecognition()
-
-mic.continuous = true
-mic.interimResults = true
-mic.lang = 'en-US'
-
-function App() {
-  const [isListening, setIsListening] = useState(false)
-  const [note, setNote] = useState(null)
-  const [data, setData] = useState(null)
-  const [offset, setOffset] = useState(0)
-  const [savedNotes, setSavedNotes] = useState([])
-  const [midCommand, setMidCommand] = useState(true)
-  const [start, setStart] = useState(null)
-  const [now, setNow] = useState(null)
-
-
-  useEffect(() => {
-    handleListen()
-  }, [isListening])
-
-
-  const readDB = () => {
-    fetch('http://localhost:5001/Title')
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error(error));
-  }
-
-  const handleListen = () => {
-    if (isListening) {
-      mic.start()
-      mic.onend = () => {
-        console.log('continue..')
-        mic.start()
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#F1416C",
+      light: "#FEECF1",
+      contrastText: "#212121"
+    },
+    secondary: {
+        dark: "#424242",
+        main: "#9e9e9e",
+        light: "#e0e0e0"
+    },
+    white: {
+      main: "#FFFFFF",
+      light: "#E0E1E4"
+    }
+  },
+  typography: {
+    fontSize: 12,
+    button: {
+        textTransform: 'none'
+    }
+  },
+  components: {
+    MuiAccordionSummary: {
+      styleOverrides: {
+        root: {
+          padding: 0
+        }
       }
-    } else {
-      mic.stop()
-      mic.onend = () => {
-        console.log('Stopped Mic on Click')
+    },
+    MuiAccordionDetails: {
+      styleOverrides: {
+        root: {
+          paddingLeft: 0,
+          paddingRight: 0
+        }
+      }
+    },
+    MuiToggleButton: {
+      defaultProps: {
+        color: "primary"
+      }
+    },
+    MuiToggleButtonGroup: {
+      defaultProps: {
+        exclusive: true,
+        fullWidth: true,
+        size: "small",
+        color: "primary"
+      }
+    },
+    MuiSlider: {
+      styleOverrides: {
+        root: {
+          paddingBottom: 0
+        }
+      }
+    },
+    MuiCheckbox: {
+      defaultProps: {
+        size: "small"
+      },
+      styleOverrides: {
+        root: {
+          marginRight: -5,
+          marginBottom: -5,
+          marginTop: -5
+        }
+      }
+    },
+    MuiFormControlLabel: {
+      styleOverrides: {
+        label: {
+          fontSize: 11
+        }
       }
     }
-    mic.onstart = () => {
-      console.log('Mics on')
-    }
-    // mic.onspeechend = () => {
-    //   console.log("done listening")
-    // }
-    mic.onresult = event => {
-      let transcript = Array.from(event.results)
-        .map(result => result[0])
-        .map(result => result.transcript)
-        .join('')
-      console.log(transcript)
-
-      mic.onerror = event => {
-        console.log(event.error)
-      }
-
-      if(transcript.indexOf("done") != -1){
-        let command = transcript.substring((transcript.lastIndexOf("Remy")+4),transcript.lastIndexOf("done")-1)
-        // transcript = transcript.substring(transcript.length-4)
-        mic.stop()
-        setNote('')
-        console.log(command);
-        fetch('http://localhost:5001/text-input', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ command })
-        })
-      }
-     }
   }
-
-  const handleSaveNote = () => {
-    setSavedNotes([...savedNotes, note])
-    setNote('')
-  }
-
-  return (
-    <>
-      <h1>Voice Notes</h1>
-      <div className="container">
-        <div className="box">
-          <h2>Current Note</h2>
-          {isListening ? <span>🛑🎙️</span> : <span>🎙️</span>}
-          <button onClick={handleSaveNote} disabled={!note}>
-            Save Note
-          </button>
-          {/* <div onLoad={() => setIsListening(true)}> </div> */}
-          <button onClick={() => setIsListening(prevState => !prevState)}>
-            Start/Stop
-          </button>
-          <p>{note}</p>
-        </div>
-        <div className="box">
-          <h2>Notes</h2>
-          {savedNotes.map(n => (
-            <p key={n}>{n}</p>
-          ))}
-        </div>
-        <button onClick={readDB}>
-            get DB data
-          </button>
-      </div>
-    </>
-  )
-}
-
-export default App
+});
+ 
+const App = () => {
+ return (
+   <ThemeProvider theme={theme}>
+     <style jsx global>{`
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+    `}</style>
+     <Navbar />
+     <Routes>
+       <Route exact path="/" element={<Home />} />
+       <Route path="/test" element={<Test />} />
+     </Routes>
+   </ThemeProvider>
+ );
+};
+ 
+export default App;
