@@ -8,6 +8,7 @@ import Home from './pages/home';
 import Test from './pages/test';
 import Landing from './pages/landing';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Detail from './pages/detail';
 
 const theme = createTheme({
   palette: {
@@ -103,6 +104,7 @@ const App = () => {
        <Route exact path="/" element={<Landing />} />
        <Route path="/home" element={<Home />} />
        <Route path="/test" element={<Test />} />
+       <Route path="/detail" element={<Detail/>}/>
      </Routes>
    </ThemeProvider>
  );

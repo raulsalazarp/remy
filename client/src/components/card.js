@@ -21,7 +21,9 @@ export default function RecipeCard({ recipe }) {
 
     return (
         <Box>
-            <img src="cookies.png" width="100%" height={125} style={{borderRadius: 7}}/>
+            <img src="cookies.png" width="100%" height={125} style={{borderRadius: 7}}
+                onClick={() => navigate("/detail")}
+            />
             <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                 <Typography fontSize={14} sx={{marginTop: "2px"}}>Recipe name</Typography>
                 <Box sx={{display: "flex", alignItems: "center"}}>
