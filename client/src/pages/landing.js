@@ -1,8 +1,11 @@
 import { Box, Button, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Navbar from '../components/navbar';
+import {useNavigate} from "react-router-dom";
 
 export default function Landing() {
+
+    const navigate = useNavigate();
 
     const styles = {
         container: {
@@ -35,7 +38,8 @@ export default function Landing() {
                 <Typography variant="h6" sx={{maxWidth: 450, fontSize:16}} color="secondary.main">
                     Complete your favorite step-by-step recipes hands-free with Remy’s voice-based interface
                 </Typography>
-                <Button variant="contained" size="large" sx={{maxWidth: 300, marginTop: 4, color:"white.main", fontSize: 22, borderRadius: 50}}>
+                <Button variant="contained" size="large" onClick={() => navigate("/home")}
+                    sx={{maxWidth: 300, marginTop: 4, color:"white.main", fontSize: 22, borderRadius: 50}}>
                     Get Started
                 </Button>
             </Box>

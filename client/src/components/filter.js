@@ -23,11 +23,9 @@ const Accordion = styled((props) => (
 	},
   }));
 
-const CircleButton = styled(ToggleButton)({
-	borderRadius: 50,
-	width: 35,
-	height: 35
-});
+function valuetext(time) {
+return `${time}°C`;
+}
 
 const StyledRating = styled(Rating) (({ theme }) => ({
 	'& .MuiRating-iconFilled': {
@@ -42,6 +40,8 @@ export default function Filter({dwellings, setDwellings}) {
 	const [open3, setOpen3] = useState(false);
 	const [open4, setOpen4] = useState(false);
 	const [open5, setOpen5] = useState(false);
+	const [rating, setRating] = useState(0);
+	const [time, setTime] = useState([0, 2]);
 
 	const filterOutdoor = () => {
 		const filtered = dwellings.filter(d => d.amenities.outdoorSpace === true);
@@ -70,7 +70,20 @@ export default function Filter({dwellings, setDwellings}) {
 						<Typography variant="h6" fontSize={16}>Meal</Typography>
 					</AccordionSummary>
 					<AccordionDetails sx={{display: "flex", flexDirection: "row", alignItems: "center", gap: 1}}>
-						
+						<Grid container>
+							<Grid item xs={6}>
+								<FormControlLabel control={<Checkbox />} label="Breakfast"/>
+								<FormControlLabel control={<Checkbox />} label="Lunch"/>
+								<FormControlLabel control={<Checkbox />} label="Dinner"/>
+								<FormControlLabel control={<Checkbox />} label="Dessert"/>
+							</Grid>
+							<Grid item xs={6}>
+								<FormControlLabel control={<Checkbox />} label="Snack"/>
+								<FormControlLabel control={<Checkbox />} label="Appetizer"/>
+								<FormControlLabel control={<Checkbox />} label="Sides"/>
+								<FormControlLabel control={<Checkbox />} label="Bread"/>
+							</Grid>
+						</Grid>
 					</AccordionDetails>
 				</Accordion>
 				<Accordion expanded={open2} onChange={() => setOpen2(!open2)}>
@@ -78,7 +91,20 @@ export default function Filter({dwellings, setDwellings}) {
 						<Typography variant="h6" fontSize={16}>Cousine</Typography>
 					</AccordionSummary>
 					<AccordionDetails sx={{display: "flex", flexDirection: "column", gap: 1}}>
-						
+						<Grid container>
+							<Grid item xs={6}>
+								<FormControlLabel control={<Checkbox />} label="Mexican"/>
+								<FormControlLabel control={<Checkbox />} label="Italian"/>
+								<FormControlLabel control={<Checkbox />} label="Chinese"/>
+								<FormControlLabel control={<Checkbox />} label="Indian"/>
+							</Grid>
+							<Grid item xs={6}>
+								<FormControlLabel control={<Checkbox />} label="Mediterranean"/>
+								<FormControlLabel control={<Checkbox />} label="American"/>
+								<FormControlLabel control={<Checkbox />} label="Japanese"/>
+								<FormControlLabel control={<Checkbox />} label="French"/>
+							</Grid>
+						</Grid>
 					</AccordionDetails>
 				</Accordion>
 				<Accordion expanded={open3} onChange={() => setOpen3(!open3)}>
@@ -86,7 +112,11 @@ export default function Filter({dwellings, setDwellings}) {
 						<Typography variant="h6" fontSize={16}>Ratings</Typography>
 					</AccordionSummary>
 					<AccordionDetails>
-						
+						<Typography fontSize={13} sx={{marginBottom: "8px"}}>Minimum Acceptable Rating</Typography>
+						<StyledRating
+							value={rating}
+							onChange={(event, newValue) => setRating(newValue)}
+							/>
 					</AccordionDetails>
 				</Accordion>
 				<Accordion expanded={open4} onChange={() => setOpen4(!open4)}>
@@ -94,7 +124,19 @@ export default function Filter({dwellings, setDwellings}) {
 						<Typography variant="h6" fontSize={16}>Time</Typography>
 					</AccordionSummary>
 					<AccordionDetails>
-						
+						<Slider
+							value={time}
+							onChange={(e, val) => setTime(val)}
+							valueLabelDisplay="auto"
+							getAriaValueText={valuetext}
+							min={0}
+							max={120}
+							step={5}
+						/>
+						<Box sx={{display: "flex", justifyContent: "space-between", marginBottom: "8px"}}>
+							<Typography fontSize={11} color="secondary">0 min</Typography>
+							<Typography fontSize={11} color="secondary">{'>'}120 min</Typography>
+						</Box>
 					</AccordionDetails>
 				</Accordion>
 				<Accordion expanded={open5} onChange={() => setOpen5(!open5)}>
@@ -102,7 +144,20 @@ export default function Filter({dwellings, setDwellings}) {
 						<Typography variant="h6" fontSize={16}>Ingredients</Typography>
 					</AccordionSummary>
 					<AccordionDetails>
-						
+						<Grid container>
+							<Grid item xs={6}>
+								<FormControlLabel control={<Checkbox />} label="Gluten Free"/>
+								<FormControlLabel control={<Checkbox />} label="Dairy Free"/>
+								<FormControlLabel control={<Checkbox />} label="Vegetarian"/>
+								<FormControlLabel control={<Checkbox />} label="Vegan"/>
+							</Grid>
+							<Grid item xs={6}>
+								<FormControlLabel control={<Checkbox />} label="Kosher"/>
+								<FormControlLabel control={<Checkbox />} label="Keto"/>
+								<FormControlLabel control={<Checkbox />} label="Pescetarian"/>
+								<FormControlLabel control={<Checkbox />} label="Nut Free"/>
+							</Grid>
+						</Grid>
 					</AccordionDetails>
 				</Accordion>			
 		    </Box>
