@@ -30,7 +30,7 @@ export default function Test() {
 
 
   const readDB = () => {
-    fetch('http://localhost:5001/Title')
+    fetch('http://localhost:5001/recipes')
       .then(response => response.json())
       .then(data => console.log(data))
       .catch(error => console.error(error));
