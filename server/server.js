@@ -4,6 +4,7 @@ const app = express();
 const Dialogflow = require("@google-cloud/dialogflow")
 const uuid = require("uuid").v4
 const Path = require("path")
+const { connect, close, db } = require('./db');
 
 const PORT = process.env.PORT || 5001;
 
@@ -16,30 +17,20 @@ app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
 
-const { connect } = require('./db');
-connect();
-
-const { db } = require('./db');
-
 // Example route that retrieves data from the database
-app.get('/Title', async (req, res) => {
+//Should rename this to /AllRecipes
+app.get('/recipes', async (req, res) => {
     try {
-    const collection = db().collection('Recipes');
-    const cursor = await collection.find();
-    const recipes = await cursor.toArray();
-    console.log(recipes)
-    // res.send(recipes);
+        await connect()
+        const collection = db('Remy').collection('Recipes');
+        const recipes = await collection.find().toArray();
+        console.log(recipes.length)
+        close()
     } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
+        console.error(error);
+        res.status(500).send('Internal Server Error');
     }
 });
-// app.get('/Title', async (req, res) => {
-
-//     console.log('received readDB request');
-//     const titles = await db().collection('Remy.Recipes').find().toArray();
-//     console.log(res.json(titles));
-// });
 
 
 app.post("/text-input", async (req, res) => {
@@ -89,4 +80,3 @@ app.post("/text-input", async (req, res) => {
 });
 
 module.exports = app
-
