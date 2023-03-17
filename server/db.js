@@ -1,4 +1,5 @@
 const { MongoClient } = require('mongodb');
+const { GridFSBucket } = require('mongodb');
 
 const uri = "mongodb+srv://remy:remydev@cluster0.za1f2cr.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -21,4 +22,5 @@ module.exports = {
   connect,
   close,
   db: (name) => client.db(name),
+  bucket: (db,name) => new GridFSBucket(db, { bucketName: name })
 };
