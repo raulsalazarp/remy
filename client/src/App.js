@@ -9,6 +9,7 @@ import Test from './pages/test';
 import Landing from './pages/landing';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Detail from './pages/detail';
+import Step from './pages/step';
 
 const theme = createTheme({
   palette: {
@@ -105,6 +106,7 @@ const App = () => {
        <Route path="/home" element={<Home />} />
        <Route path="/test" element={<Test />} />
        <Route path="/detail" element={<Detail/>}/>
+       <Route path="/steps" element={<Step />}/>
      </Routes>
    </ThemeProvider>
  );

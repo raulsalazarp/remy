@@ -29,6 +29,7 @@ export default function Ingredients() {
             <Button 
                 size="large" 
                 variant="contained" 
+                onClick={() => navigate("/steps")}
                 sx={{color: "white.main", width: "100%", fontSize: 16}}>
                     Begin Recipe
             </Button>
