@@ -36,6 +36,13 @@ export default function Test() {
       .catch(error => console.error(error));
   }
 
+  const readSingleDB = () => {
+    fetch('http://localhost:5001/recipes/Salmon%20Burgers%20With%20Ginger%20and%20Quick-Pickled%20Cucumbers')
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error(error));
+  }
+
   const handleListen = () => {
     if (isListening) {
       mic.start()
@@ -113,6 +120,9 @@ export default function Test() {
         <button onClick={readDB}>
             get DB data
           </button>
+        <button onClick={readSingleDB}>
+          get single recipe from DB
+        </button>
       </div>
     </>
   )

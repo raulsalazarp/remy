@@ -4,7 +4,8 @@ const app = express();
 const Dialogflow = require("@google-cloud/dialogflow")
 const uuid = require("uuid").v4
 const Path = require("path")
-const { connect, close, db } = require('./db');
+const { connect, close, db, bucket } = require('./db');
+const { ObjectId } = require("mongodb");
 
 const PORT = process.env.PORT || 5001;
 
@@ -17,15 +18,45 @@ app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
 
-// Example route that retrieves data from the database
-//Should rename this to /AllRecipes
+//Retrieves all recipes from database
 app.get('/recipes', async (req, res) => {
     try {
-        await connect()
+        await connect();
         const collection = db('Remy').collection('Recipes');
         const recipes = await collection.find().toArray();
-        console.log(recipes.length)
-        close()
+        //code to retrieve images stored in DB
+        //however the retrieval was extremely slow
+        //need to find a faster way to retrieve
+        /*const imageBucket = bucket(db('Remy'),'Images');
+        for (let recipe of recipes) {
+            const imageStream =  imageBucket.openDownloadStream(new ObjectId('640edd738ab55741e7415a45'));
+            const chunks = [];
+            imageStream.on('data', (chunk) => {
+              chunks.push(chunk);
+            });
+            imageStream.on('end', () => {
+              const imageBuffer = Buffer.concat(chunks);
+              console.log("Buffer");
+              console.log(imageBuffer);
+              recipe.image = imageBuffer.toString('base64');
+            });
+        }*/
+        res.status(200).send(recipes);
+        close();
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.get('/recipes/:recipeName', async (req, res) => {
+    try {
+        await connect();
+        const recipeName = req.params.recipeName;
+        const collection = db('Remy').collection('Recipes');
+        const recipe = await collection.findOne({ Title: recipeName });
+        res.status(200).send(recipe);
+        close();
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
