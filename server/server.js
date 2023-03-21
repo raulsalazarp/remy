@@ -73,12 +73,12 @@ app.post("/text-input", async (req, res) => {
     // Create a new session
     const sessionClient = new Dialogflow.SessionsClient({
         // keyFilename: Path.join(__dirname, "./remy-nui-50dc7607e7be.json"),
-        keyFilename: "./remy-nui-50dc7607e7be.json",
+        keyFilename: "./remy-project-team3-10d4e5d0d249.json",
     });
 
     const sessionPath = sessionClient.projectAgentSessionPath(
         // process.env.PROJECT_ID,
-        "remy-nui",
+        "remy-project-team3",
         uuid()
     );
 
@@ -103,7 +103,7 @@ app.post("/text-input", async (req, res) => {
         latestIntent = intent
         console.log(latestIntent)
         console.log("\n")
-        res.status(200).send({ data: responses });
+        res.status(200).send({ data: intent });
     } catch (e) {
         console.log(e);
         res.status(422).send({ e });

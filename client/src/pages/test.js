@@ -43,6 +43,12 @@ export default function Test() {
       .catch(error => console.error(error));
   }
 
+  const speakText = () => {
+    const speaker = new SpeechSynthesisUtterance()
+    speaker.text = String(note)
+    window.speechSynthesis.speak(speaker)
+  }
+
   const handleListen = () => {
     if (isListening) {
       mic.start()
@@ -123,6 +129,9 @@ export default function Test() {
         <button onClick={readSingleDB}>
           get single recipe from DB
         </button>
+        <button onClick={speakText}>
+            Speak
+          </button>
       </div>
     </>
   )

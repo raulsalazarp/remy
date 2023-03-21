@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import {Box, Toolbar, Grid, Stepper, StepLabel, Step, Typography, Button,
 Divider} from '@mui/material';
 import Navbar from "../components/navbar";
@@ -21,6 +21,86 @@ export default function RecipeStep() {
         "Beat in eggs, one at a time, then stir in vanilla.",
         "Place mix in the oven for 25 minutes."
     ]
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+    const mic = new SpeechRecognition()
+    const [isListening, setIsListening] = useState(false)
+
+
+    // mic.interimResults = true //commenting out prevents the double triple requests 
+    mic.continuous = true
+    mic.lang = 'en-US'
+    if(!isListening){
+        mic.start()
+    }
+
+
+
+    
+
+    const handleListen = () => {
+
+        mic.onresult = event => {
+            let transcript = Array.from(event.results)
+            .map(result => result[0])
+            .map(result => result.transcript)
+            .join('')
+            console.log(transcript)
+
+            mic.onerror = event => {
+                console.log(event.error)
+            }
+
+            if(transcript.indexOf("done") != -1){
+                let command = transcript.substring((transcript.lastIndexOf("Remy")+4),transcript.lastIndexOf("done")-1)
+                // mic.stop()
+                setIsListening(false)
+                // mic.start() // error = Failed to execute 'start' on 'SpeechRecognition': recognition has already started.
+                
+                transcript = ""
+                console.log(command);
+                fetch('http://localhost:5001/text-input', {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ command })
+                })
+                .then(response => response.text()) // convert the response to JSON format
+                .then(data => handleIntent(data))
+
+
+                // mic.start()
+            }
+        }
+    }
+
+    const goBackRef = useRef(null);
+    const goNextRef = useRef(null);
+
+    const handleIntent = (data) => {
+        let intent = data.substring(9,data.lastIndexOf("\""))
+        console.log("intent: "+intent)
+        if(intent == "prev"){
+            // goBackRef.current.click() //these lines break the microphone after changin the step
+        }
+        if(intent == "next"){
+            // goNextRef.current.click() //these lines break the microphone after changin the step
+        }
+        if(intent == "speak"){
+
+        }
+        else{
+            //intent is command not recognized
+            //do nothing 
+            console.log(intent)
+        }
+    }
+
+    
+    useEffect(() => {
+        handleListen()
+    },[true])
 
     return (
         <>
@@ -55,6 +135,7 @@ export default function RecipeStep() {
                             <Grid container spacing={1}>
                                 <Grid item xs={2}>
                                     <Button
+                                        ref={goBackRef}
                                         size="large"
                                         variant="contained"
                                         onClick={() => setStep(step - 1)}
@@ -66,6 +147,7 @@ export default function RecipeStep() {
                                 </Grid>
                                 <Grid item xs={10}>
                                     <Button
+                                        ref={goNextRef}
                                         size="large"
                                         variant="contained"
                                         onClick={() => {step === dummySteps.length ? navigate("/home") : setStep(step + 1)}}
