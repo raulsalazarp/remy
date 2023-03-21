@@ -34,10 +34,6 @@ export default function RecipeStep() {
         mic.start()
     }
 
-
-
-    
-
     const handleListen = () => {
 
         mic.onresult = event => {
@@ -49,6 +45,8 @@ export default function RecipeStep() {
 
             mic.onerror = event => {
                 console.log(event.error)
+                mic.stop()
+                mic.start()
             }
 
             if(transcript.indexOf("done") != -1){
@@ -66,7 +64,7 @@ export default function RecipeStep() {
                     },
                     body: JSON.stringify({ command })
                 })
-                .then(response => response.text()) // convert the response to JSON format
+                .then(response => response.text()) 
                 .then(data => handleIntent(data))
 
 
@@ -82,9 +80,11 @@ export default function RecipeStep() {
         let intent = data.substring(9,data.lastIndexOf("\""))
         console.log("intent: "+intent)
         if(intent == "prev"){
+            setStep(step - 1)
             // goBackRef.current.click() //these lines break the microphone after changin the step
         }
         if(intent == "next"){
+            setStep(step + 1)
             // goNextRef.current.click() //these lines break the microphone after changin the step
         }
         if(intent == "speak"){
@@ -100,7 +100,7 @@ export default function RecipeStep() {
     
     useEffect(() => {
         handleListen()
-    },[true])
+    },[true]) //check if the error has something to do with this
 
     return (
         <>
