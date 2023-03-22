@@ -5,8 +5,12 @@ import WriteIcon from '@mui/icons-material/EditRounded';
 import SearchIcon from '@mui/icons-material/SearchRounded';
 import Ingredients from "../components/ingredients";
 import Navbar from "../components/navbar";
+import useService from '../services/detailService';
+import Loading from "../components/loading";
 
 export default function Details() {
+
+    const [recipe, loading, ratings, time, cal, serv] = useService();
 
     const dummySteps = [
         "Preheat oven to 350 degrees.",
@@ -17,12 +21,13 @@ export default function Details() {
     ]
 
     return (
+        loading ? <Loading /> :
         <>
             <Navbar />
             <Box sx={{padding: 2}}>
                 <Toolbar/>
                 <>
-                    <Header/>
+                    <Header recipe={recipe} ratings={ratings} time={time} cal={cal} serv={serv}/>
                     <Grid container spacing={3} sx={{paddingLeft: 15, paddingRight: 15, paddingTop: 3}}>
                         <Grid item xs={8} sx={{paddingRight: 5}}>
                             <Typography variant="h5" fontSize={26} sx={{marginBottom: 3}}>Recipe Overview</Typography>

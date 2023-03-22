@@ -48,11 +48,24 @@ app.get('/recipes', async (req, res) => {
     }
 });
 
-app.get('/recipes/:recipeName', async (req, res) => {
+// app.get('/recipes/:recipeName', async (req, res) => {
+//     try {
+//         const recipeName = req.params.recipeName;
+//         const collection = db('Remy').collection('Recipes');
+//         const recipe = await collection.findOne({ Title: recipeName });
+//         res.status(200).send(recipe);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send('Internal Server Error');
+//     }
+// });
+
+app.get('/recipes/:id', async (req, res) => {
     try {
-        const recipeName = req.params.recipeName;
+        const id = req.params.id;
         const collection = db('Remy').collection('Recipes');
-        const recipe = await collection.findOne({ Title: recipeName });
+        const recipe = await collection.findOne({ _id: new ObjectId(id) });
+        console.log(recipe);
         res.status(200).send(recipe);
     } catch (error) {
         console.error(error);

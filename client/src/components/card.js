@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {Box, Typography, Rating} from '@mui/material';
 import { string, shape, number, bool } from "prop-types";
 import {styled} from '@mui/material/styles';
 import TimeIcon from '@mui/icons-material/AccessTimeRounded';
 import FireIcon from '@mui/icons-material/LocalFireDepartmentOutlined';
-import StarIcon from '@mui/icons-material/StarBorderRounded';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import { useNavigate } from "react-router-dom";
 
@@ -24,11 +23,22 @@ function rand(min, max, mult) {
 export default function RecipeCard({ recipe }) {
 
     const navigate = useNavigate();
+    const [ratings, setRatings] = useState(0);
+    const [time, setTime] = useState(0);
+    const [cal, setCal] = useState(0);
+    const [serv, setServ] = useState(0);
+
+    useEffect(() => {
+        setRatings(rand(20, 200, 1));
+        setTime(rand(35, 70, 5));
+        setCal(rand(300, 700, 10));
+        setServ(rand(5, 15, 1));
+    }, [])
 
     return (
         <Box>
             <img src={`${recipe.Image_Name}.jpg`} width="100%" height={125} style={{borderRadius: 7, objectFit: "cover"}}
-                onClick={() => navigate("/detail")}
+                onClick={() => navigate(`/detail/${recipe._id}/${ratings}/${time}/${cal}/${serv}`)}
             />
             <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                 <Typography 
@@ -45,20 +55,20 @@ export default function RecipeCard({ recipe }) {
             </Box>
             <Box sx={{display: "flex", alignItems: "center"}}>
                 <StyledRating value={5}/>
-                <Typography color="secondary" fontSize={10}>({rand(20, 200, 1)})</Typography>
+                <Typography color="secondary" fontSize={10}>({ratings})</Typography>
             </Box>
             <Box sx={{display: "flex", alignItems: "center", gap: "6px", marginTop: "3px", marginBottom: "3px"}}>
                 <Box sx={{display: "flex", alignItems: "center", gap: "2px"}}>
                     <TimeIcon color="secondary" fontSize="small" sx={{height: "18px"}}/>
-                    <Typography fontSize={11} color="secondary.dark">{rand(35, 120, 5)} min</Typography>
+                    <Typography fontSize={11} color="secondary.dark">{time} min</Typography>
                 </Box>
                 <Box sx={{display: "flex", alignItems: "center", gap: "2px"}}>
                     <FireIcon color="secondary" fontSize="small" sx={{height: "16px"}}/>
-                    <Typography fontSize={11} color="secondary.dark">{rand(300, 700, 10)} cal</Typography>
+                    <Typography fontSize={11} color="secondary.dark">{cal} cal</Typography>
                 </Box>
                 <Box sx={{display: "flex", alignItems: "center", gap: "2px"}}>
                     <RestaurantIcon color="secondary" fontSize="small" sx={{height: "16px"}}/>
-                    <Typography fontSize={11} color="secondary.dark">{rand(5, 15, 1)} servings</Typography>
+                    <Typography fontSize={11} color="secondary.dark">{serv} servings</Typography>
                 </Box>
             </Box>
             <Typography

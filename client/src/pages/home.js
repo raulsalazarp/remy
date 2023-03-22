@@ -5,7 +5,7 @@ import {styled} from '@mui/material/styles';
 import Filter from "../components/filter";
 import Navbar from '../components/navbar';
 import RecipeCard from '../components/card';
-import useService from '../service';
+import useService from '../services/homeService';
 import Loading from '../components/loading';
 
 const Main = styled((props) => (
