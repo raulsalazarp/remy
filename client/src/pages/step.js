@@ -57,7 +57,7 @@ export default function RecipeStep() {
             setStep(step + 1)
         }
         if(intent == "speak"){
-            speakText("come on bro")
+            speakText(dummySteps[step - 1]);
         }
         else{
             //intent is command not recognized
