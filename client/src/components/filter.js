@@ -88,7 +88,7 @@ export default function Filter({dwellings, setDwellings}) {
 				</Accordion>
 				<Accordion expanded={open2} onChange={() => setOpen2(!open2)}>
 					<AccordionSummary expandIcon={open2 ? <MinusIcon /> : <AddIcon/>}>
-						<Typography variant="h6" fontSize={16}>Cousine</Typography>
+						<Typography variant="h6" fontSize={16}>Cuisine</Typography>
 					</AccordionSummary>
 					<AccordionDetails sx={{display: "flex", flexDirection: "column", gap: 1}}>
 						<Grid container>

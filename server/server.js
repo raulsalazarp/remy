@@ -15,15 +15,15 @@ app.use(express.json());
 app.use(cors());
 
 app.listen(PORT, () => {
+    connect();
   console.log(`Server listening on port ${PORT}`);
 });
 
 //Retrieves all recipes from database
 app.get('/recipes', async (req, res) => {
     try {
-        await connect();
         const collection = db('Remy').collection('Recipes');
-        const recipes = await collection.find().toArray();
+        const recipes = await collection.find().limit(10).toArray();
         //code to retrieve images stored in DB
         //however the retrieval was extremely slow
         //need to find a faster way to retrieve
@@ -42,7 +42,6 @@ app.get('/recipes', async (req, res) => {
             });
         }*/
         res.status(200).send(recipes);
-        close();
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
@@ -51,12 +50,10 @@ app.get('/recipes', async (req, res) => {
 
 app.get('/recipes/:recipeName', async (req, res) => {
     try {
-        await connect();
         const recipeName = req.params.recipeName;
         const collection = db('Remy').collection('Recipes');
         const recipe = await collection.findOne({ Title: recipeName });
         res.status(200).send(recipe);
-        close();
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');

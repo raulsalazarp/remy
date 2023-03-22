@@ -5,6 +5,8 @@ import {styled} from '@mui/material/styles';
 import Filter from "../components/filter";
 import Navbar from '../components/navbar';
 import RecipeCard from '../components/card';
+import useService from '../service';
+import Loading from '../components/loading';
 
 const Main = styled((props) => (
 	<MuiBox component="main" {...props} />
@@ -16,9 +18,12 @@ export default function Home() {
 
     const [sortby, setSortby] = useState("Reviews");
     const dummyRecipes = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+    const [recipes, loading] = useService();
 
     return (
+        loading ? <Loading/> :
         <>
+            {recipes.forEach(r => console.log(r))}
             <Navbar />
             <Filter />
             <Main>
@@ -42,8 +47,8 @@ export default function Home() {
                                     </FormControl>
                                 </Box>
                             </Grid>
-                            {dummyRecipes.length > 0 ?
-                            dummyRecipes.map(d => <Grid item xs={4}><RecipeCard /></Grid>)
+                            {recipes.length > 0 ?
+                            recipes.map(r => <Grid item xs={4}><RecipeCard recipe={r}/></Grid>)
                             : <Typography variant="h5" sx={{minHeight: 445, marginLeft: 10, marginTop: 5}}>
                                 No results that match your search
                                 </Typography>}
