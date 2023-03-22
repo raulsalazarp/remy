@@ -34,6 +34,7 @@ export default function RecipeStep() {
     const [step, setStep] = useState(1);
     const navigate = useNavigate();
     const { transcript, resetTranscript } = useSpeechRecognition({ commands });
+    const [currentStep, setCurrentStep] = useState("");
 
     const dummyStepTitles = ["Preheat", "Prep", "Beat", "Stir", "Bake"];
 
@@ -45,9 +46,10 @@ export default function RecipeStep() {
         "Place mix in the oven for 25 minutes."
     ]
 
+
     const handleIntent = (data) => {
         let intent = data.substring(9,data.lastIndexOf("\""))
-        console.log("intent: "+intent)
+        console.log("intent: XX_"+intent+"_XX")
         if(intent == "prev"){
             setStep(step - 1)
         }
@@ -55,13 +57,19 @@ export default function RecipeStep() {
             setStep(step + 1)
         }
         if(intent == "speak"){
-
+            speakText("come on bro")
         }
         else{
             //intent is command not recognized
             //do nothing 
             console.log(intent)
         }
+    }
+
+    const speakText = (text) => {
+        const speaker = new SpeechSynthesisUtterance()
+        speaker.text = String(text)
+        window.speechSynthesis.speak(speaker)
     }
 
     
