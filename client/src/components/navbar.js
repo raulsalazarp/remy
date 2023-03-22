@@ -7,6 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/PersonRounded';
 import HomeIcon from '@mui/icons-material/HomeRounded';
 import { bool } from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -21,6 +22,7 @@ const AppBar = styled(MuiAppBar, {
 export default function Navbar({transparent}) {
 
   const theme = useTheme();
+  const navigate = useNavigate();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -29,9 +31,11 @@ export default function Navbar({transparent}) {
         style={{ background: transparent ? "transparent" : "#FFFFFF", zIndex: theme.zIndex.drawer + 1 }}
         elevation={transparent ? 0 : 1}>
         <Toolbar sx={{display: "flex", justifyContent: "space-between"}}>
-          <Typography variant="h6" component="div" color="primary" fontWeight="bold">
-            Remy
-          </Typography>
+          <Button>
+            <Typography variant="h6" component="div" color="primary" fontWeight="bold" onClick={() => navigate(`/`)}>
+              Remy
+            </Typography>
+          </Button>
           <Box sx={{display: "flex", alignItems: "center"}}>
             <Button color="inherit" size="large">Saved Recipes</Button>
             <Button color="inherit" size="large">Settings</Button>
