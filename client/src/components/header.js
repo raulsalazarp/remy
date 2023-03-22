@@ -26,7 +26,7 @@ export default function Header({recipe, ratings, time, cal, serv}) {
     return (
         <>
             <div style={{position: 'relative'}}>
-                <div style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgb(0,0,0,0.5)', borderRadius: 10}}/>
+                <div style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '99.2%', backgroundColor: 'rgb(0,0,0,0.5)', borderRadius: 10}}/>
                 <img src={`/${recipe.Image_Name}.jpg`} width="100%" height={475} style={{borderRadius: 10, objectFit: "cover"}}/>
             </div>
             <Box sx={{position: "absolute", top: 300, left: 100, display: "flex"}}>

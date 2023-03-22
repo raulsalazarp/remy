@@ -1,25 +1,24 @@
 import React from "react";
-import {Button, Divider, List, ListItem, ListItemIcon, ListItemText, Paper, Typography} from '@mui/material';
+import {Button, Divider, List, ListItem, ListItemIcon, ListItemText, Card, Typography} from '@mui/material';
 import {arrayOf, shape, string, number} from 'prop-types';
 import PhoneIcon from '@mui/icons-material/PhoneRounded';
 import WebsiteIcon from '@mui/icons-material/OpenInBrowserRounded';
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 
-export default function Ingredients() {
+export default function Ingredients({ingredients}) {
 
     const navigate = useNavigate();
-    const dummyIngredients = ["Eggs", "Butter", "Sugar", "Chocolate Chips", "Flour"]
 
     return (
-        <Paper variant="outlined" sx={{padding: 3, minHeight: 315}}>
+        <Card variant="outlined" sx={{padding: 3}}>
             <Typography variant="h5" fontWeight="bold">Ingredients</Typography>
             <Divider sx={{marginTop: 2}}/>
             <List>
-                {dummyIngredients.map(i =>
+                {ingredients.map(i =>
                     <ListItem sx={{paddingBottom: 0}}>
                         <ListItemIcon>
-                            <img src="bullet.svg" height={12}/>
+                            <img src="/bullet.svg" height={12}/>
                         </ListItemIcon>
                     <ListItemText sx={{marginLeft: -2}}>{i}</ListItemText>
                 </ListItem>
@@ -33,6 +32,10 @@ export default function Ingredients() {
                 sx={{color: "white.main", width: "100%", fontSize: 16}}>
                     Begin Recipe
             </Button>
-        </Paper>
+        </Card>
     )
+}
+
+Ingredients.propTypes = {
+    ingredients: arrayOf(string)
 }
