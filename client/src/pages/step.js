@@ -7,103 +7,68 @@ import NextIcon from '@mui/icons-material/ArrowForwardRounded';
 import CheckIcon from '@mui/icons-material/CheckRounded';
 import { useNavigate } from "react-router-dom";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import { string, shape, number, bool } from "prop-types";
+import useService from "../services/stepService";
+import Loading from '../components/loading';
 
 export default function RecipeStep() {
 
-    const commands = [
-        {
-          command: "done",
-          callback: () => {
-            console.log(transcript);
-            let command = transcript.substring((transcript.lastIndexOf("Remy")+4),transcript.lastIndexOf("done")-1);
-            resetTranscript();
-            console.log(command);
-            fetch('http://localhost:5001/text-input', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ command })
-            })
-            .then(response => response.text()) 
-            .then(data => handleIntent(data))
-          },
-        }
-      ];
-
-    const [step, setStep] = useState(1);
     const navigate = useNavigate();
-    const { transcript, resetTranscript } = useSpeechRecognition({ commands });
-    const [currentStep, setCurrentStep] = useState("");
+    const [recipe, loading, step, setStep] = useService();
+    const [instructions, setInstructions] = useState([]);
+    const [titles, setTitles] = useState([]); 
+    const lameWords = ["the", "a", "in", "large", "bowl", "medium", "let"];
 
-    const dummyStepTitles = ["Preheat", "Prep", "Beat", "Stir", "Bake"];
-
-    const dummySteps = [
-        "Preheat oven to 350 degrees.",
-        "Soften butter.",
-        "Beat butter, white sugar, and brown sugar with an electric mixer in a large bowl until smooth.",
-        "Beat in eggs, one at a time, then stir in vanilla.",
-        "Place mix in the oven for 25 minutes."
-    ]
-
-
-    const handleIntent = (data) => {
-        let intent = data.substring(9,data.lastIndexOf("\""))
-        console.log("intent: XX_"+intent+"_XX")
-        if(intent == "prev"){
-            setStep(step - 1)
-        }
-        if(intent == "next"){
-            setStep(step + 1)
-        }
-        if(intent == "speak"){
-            speakText(dummySteps[step - 1]);
-        }
-        else{
-            //intent is command not recognized
-            //do nothing 
-            console.log(intent)
-        }
+    const getSteps = () => {
+        console.log(recipe)
+        let list = recipe.Instructions.split(". ")
+        setInstructions(list);
+        // create titles
+        let tempTitles = [];
+        list.forEach(instr => {
+            let first = "the";
+            let i = 0;
+            while (lameWords.indexOf(first.toLowerCase()) > -1) {
+                console.log(first)
+                first = instr.split(' ')[i].replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,'');
+                i++;
+            }
+            first = first.charAt(0).toUpperCase() + first.substring(1, first.length)
+            tempTitles.push(first);
+            setTitles(tempTitles);
+        });
     }
 
-    const speakText = (text) => {
-        const speaker = new SpeechSynthesisUtterance()
-        speaker.text = String(text)
-        window.speechSynthesis.speak(speaker)
-    }
-
-    
     useEffect(() => {
-        SpeechRecognition.startListening({
-            continuous: true,
-            language: 'en-US'
-          });
-    })
+        if (!loading)
+            getSteps()
+    }, [recipe])
 
     return (
+        loading ? <Loading/> :
         <>
             <Navbar />
             <Box sx={{padding: 2}}>
                 <Toolbar/>
                 <Grid container>
                     <Grid item xs={6}>
-                        <img src="/cookies.png" width="100%" height={475} style={{borderRadius: 10}}/>
+                        <img src={`/${recipe.Image_Name}.jpg`} width="100%" height={475} style={{borderRadius: 10, objectFit: "cover"}}/>
                     </Grid>
                     <Grid item xs={6} sx={{padding: 2, height: 475, display: "flex", flexDirection: "column"}}>
                         <Box>
                             <Stepper activeStep={step - 1} alternativeLabel sx={{color: "white.main"}}>
-                                {dummyStepTitles.map((label) => (
+                                {titles ? titles.map((label) => (
                                 <Step key={label}>
                                     <StepLabel>{label}</StepLabel>
                                 </Step>
-                                ))}
+                                )) : null}
                             </Stepper>
                             <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center", width: "100%", marginTop: 2}}>
                                 <Typography textAlign="center" variant="overline" fontSize={11}>{`STEP ${step} OF 5`}</Typography>
-                                <Typography textAlign="center" variant="h5" fontSize={24}>{dummyStepTitles[step-1]}</Typography>
+                                <Typography textAlign="center" variant="h5" fontSize={24}>{titles ? titles[step-1] : null}</Typography>
                                 <Box sx={{display: "flex", justifyContent: "center", width: "100%"}}>
                                     <Typography textAlign="center" variant="body1" fontSize={16} sx={{marginTop: 3, width: "70%"}}>
-                                        {dummySteps[step-1]}
+                                        {instructions ? instructions[step-1] : null}
                                     </Typography>
                                 </Box>
                             </Box>
@@ -126,10 +91,10 @@ export default function RecipeStep() {
                                     <Button
                                         size="large"
                                         variant="contained"
-                                        onClick={() => {step === dummySteps.length ? navigate("/home") : setStep(step + 1)}}
-                                        endIcon={step === dummySteps.length ? <CheckIcon/> : <NextIcon />}
+                                        onClick={() => {step === instructions.length ? navigate("/home") : setStep(step + 1)}}
+                                        endIcon={step === instructions.length ? <CheckIcon/> : <NextIcon />}
                                         sx={{color: "white.main", width: "100%", fontSize: 16}}>
-                                        {step === dummySteps.length ? "Finish Recipe" : "Continue to Next Step"}
+                                        {step === instructions.length ? "Finish Recipe" : "Continue to Next Step"}
                                     </Button>
                                 </Grid>
                             </Grid>

@@ -7,11 +7,13 @@ import Ingredients from "../components/ingredients";
 import Navbar from "../components/navbar";
 import useService from '../services/detailService';
 import Loading from "../components/loading";
+import { useNavigate } from "react-router-dom";
 
 export default function Details() {
 
     const [recipe, loading, ratings, time, cal, serv] = useService();
     const [ingredients, setIngredients] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!loading)
@@ -50,7 +52,7 @@ export default function Details() {
                             </Typography>
                         </Grid>
                         <Grid item xs={4}>
-                            <Ingredients ingredients={ingredients}/>
+                            <Ingredients ingredients={ingredients} onBegin={() => navigate(`/steps/${recipe._id}`)}/>
                         </Grid>
                     </Grid>
                 </>

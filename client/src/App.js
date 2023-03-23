@@ -106,7 +106,7 @@ const App = () => {
        <Route path="/home" element={<Home />} />
        <Route path="/test" element={<Test />} />
        <Route path="/detail/:id/:ratings/:time/:cal/:serv" element={<Detail/>}/>
-       <Route path="/steps" element={<Step />}/>
+       <Route path="/steps/:id" element={<Step />}/>
      </Routes>
    </ThemeProvider>
  );

@@ -1,12 +1,12 @@
 import React from "react";
 import {Button, Divider, List, ListItem, ListItemIcon, ListItemText, Card, Typography} from '@mui/material';
-import {arrayOf, shape, string, number} from 'prop-types';
+import {arrayOf, shape, string, number, func} from 'prop-types';
 import PhoneIcon from '@mui/icons-material/PhoneRounded';
 import WebsiteIcon from '@mui/icons-material/OpenInBrowserRounded';
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 
-export default function Ingredients({ingredients}) {
+export default function Ingredients({ingredients, onBegin}) {
 
     const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ export default function Ingredients({ingredients}) {
             <Button 
                 size="large" 
                 variant="contained" 
-                onClick={() => navigate("/steps")}
+                onClick={() => onBegin()}
                 sx={{color: "white.main", width: "100%", fontSize: 16}}>
                     Begin Recipe
             </Button>
@@ -37,5 +37,6 @@ export default function Ingredients({ingredients}) {
 }
 
 Ingredients.propTypes = {
-    ingredients: arrayOf(string)
+    ingredients: arrayOf(string),
+    onBegin: func
 }
