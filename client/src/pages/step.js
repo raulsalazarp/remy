@@ -14,35 +14,7 @@ import Loading from '../components/loading';
 export default function RecipeStep() {
 
     const navigate = useNavigate();
-    const [recipe, loading, step, setStep] = useService();
-    const [instructions, setInstructions] = useState([]);
-    const [titles, setTitles] = useState([]); 
-    const lameWords = ["the", "a", "in", "large", "bowl", "medium", "let"];
-
-    const getSteps = () => {
-        console.log(recipe)
-        let list = recipe.Instructions.split(". ")
-        setInstructions(list);
-        // create titles
-        let tempTitles = [];
-        list.forEach(instr => {
-            let first = "the";
-            let i = 0;
-            while (lameWords.indexOf(first.toLowerCase()) > -1) {
-                console.log(first)
-                first = instr.split(' ')[i].replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,'');
-                i++;
-            }
-            first = first.charAt(0).toUpperCase() + first.substring(1, first.length)
-            tempTitles.push(first);
-            setTitles(tempTitles);
-        });
-    }
-
-    useEffect(() => {
-        if (!loading)
-            getSteps()
-    }, [recipe])
+    const [recipe, loading, step, setStep, instructions, titles] = useService();
 
     return (
         loading ? <Loading/> :

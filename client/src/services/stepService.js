@@ -27,16 +27,37 @@ export default () => {
     const [recipe, setRecipe] = useState([]);
     const [loading, setLoading] = useState(true);
     const [step, setStep] = useState(1);
+    const [instructions, setInstructions] = useState([]);
+    const [titles, setTitles] = useState([]); 
     const { transcript, resetTranscript } = useSpeechRecognition({ commands });
     const {id} = useParams();
 
-    const dummySteps = [
-        "Preheat oven to 350 degrees.",
-        "Soften butter.",
-        "Beat butter, white sugar, and brown sugar with an electric mixer in a large bowl until smooth.",
-        "Beat in eggs, one at a time, then stir in vanilla.",
-        "Place mix in the oven for 25 minutes."
-    ]
+    const lameWords = ["the", "a", "in", "large", "bowl", "medium", "let"];
+
+    const getSteps = () => {
+        console.log(recipe)
+        let list = recipe.Instructions.split(". ")
+        setInstructions(list);
+        // create titles
+        let tempTitles = [];
+        list.forEach(instr => {
+            let first = "the";
+            let i = 0;
+            while (lameWords.indexOf(first.toLowerCase()) > -1) {
+                console.log(first)
+                first = instr.split(' ')[i].replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,'');
+                i++;
+            }
+            first = first.charAt(0).toUpperCase() + first.substring(1, first.length)
+            tempTitles.push(first);
+            setTitles(tempTitles);
+        });
+    }
+
+    useEffect(() => {
+        if (!loading)
+            getSteps()
+    }, [recipe])
 
     const handleIntent = (data) => {
         let intent = data.substring(9,data.lastIndexOf("\""))
@@ -48,7 +69,7 @@ export default () => {
             setStep(step + 1)
         }
         if(intent == "speak"){
-            speakText(dummySteps[step - 1]);
+            speakText(instructions[step - 1]);
         }
         else{
             //intent is command not recognized
@@ -83,5 +104,5 @@ export default () => {
         }
     }, []);
 
-  return [recipe, loading, step, setStep];
+  return [recipe, loading, step, setStep, instructions, titles];
 };
