@@ -43,6 +43,21 @@ export default function Test() {
       .catch(error => console.error(error));
   }
 
+  const spoonacularRecipes = () => {
+
+    fetch('http://localhost:5001/spoonacular/recipes')
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error(error));
+  }
+
+  const spoonacularItalianRecipes = () => {
+    fetch('http://localhost:5001/spoonacular/recipes?cuisine=italian&ingredients=chicken')
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error(error));
+  }
+
   const speakText = () => {
     const speaker = new SpeechSynthesisUtterance()
     speaker.text = String(note)
@@ -128,6 +143,12 @@ export default function Test() {
           </button>
         <button onClick={readSingleDB}>
           get single recipe from DB
+        </button>
+        <button onClick={spoonacularRecipes}>
+          get Spoonacular recipes
+        </button>
+        <button onClick={spoonacularItalianRecipes}>
+          get italian recipes with chicken
         </button>
         <button onClick={speakText}>
             Speak

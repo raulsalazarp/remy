@@ -6,6 +6,7 @@ const uuid = require("uuid").v4
 const Path = require("path")
 const { connect, close, db, bucket } = require('./db');
 const { ObjectId } = require("mongodb");
+const axios = require('axios');
 
 const PORT = process.env.PORT || 5001;
 
@@ -24,23 +25,6 @@ app.get('/recipes', async (req, res) => {
     try {
         const collection = db('Remy').collection('Recipes');
         const recipes = await collection.find().limit(10).toArray();
-        //code to retrieve images stored in DB
-        //however the retrieval was extremely slow
-        //need to find a faster way to retrieve
-        /*const imageBucket = bucket(db('Remy'),'Images');
-        for (let recipe of recipes) {
-            const imageStream =  imageBucket.openDownloadStream(new ObjectId('640edd738ab55741e7415a45'));
-            const chunks = [];
-            imageStream.on('data', (chunk) => {
-              chunks.push(chunk);
-            });
-            imageStream.on('end', () => {
-              const imageBuffer = Buffer.concat(chunks);
-              console.log("Buffer");
-              console.log(imageBuffer);
-              recipe.image = imageBuffer.toString('base64');
-            });
-        }*/
         res.status(200).send(recipes);
     } catch (error) {
         console.error(error);
@@ -67,6 +51,53 @@ app.get('/recipes/:id', async (req, res) => {
         const recipe = await collection.findOne({ _id: new ObjectId(id) });
         console.log(recipe);
         res.status(200).send(recipe);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.get('/spoonacular/recipes', async (req, res) => {
+    try {
+        const { cuisine, ingredients, diet,  } = req.query;
+        // build the params object with optional search constraints
+        const params = {
+            apiKey: 'd19c08ad32394f988780a1fb40331452',
+            addRecipeInformation: true,
+            addNutrientInformation: true,
+            instructionsRequired: true,
+            number: 50 // limit the number of results
+        };
+        if (cuisine) params.cuisine = cuisine;
+        if (ingredients) params.includeIngredients = ingredients;
+        if (diet) params.diet = diet;
+        
+        // call Spoonacular API with the built params object
+        const response = await axios.get('https://api.spoonacular.com/recipes/complexSearch', { params });
+      
+        // send recipe data back to the client
+        res.send(response.data.results);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.get('/spoonacular/recipes/:id', async (req, res) => {
+    try {
+        const { id } = req.params.id;
+    
+        // build the params object to include nutritional information
+        const params = {
+        apiKey: 'd19c08ad32394f988780a1fb40331452',
+        includeNutrition: true
+        };
+        
+        // call Spoonacular API with the built params object
+        const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/information`, { params });
+      
+        // send recipe data back to the client
+        res.send(response.data.results);
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
