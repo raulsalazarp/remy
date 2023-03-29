@@ -9,6 +9,7 @@ const { ObjectId } = require("mongodb");
 const axios = require('axios');
 
 const PORT = process.env.PORT || 5001;
+const APIKEY = '6cdaa136795642c2a701df6a530f68d1'; //'d19c08ad32394f988780a1fb40331452'
 
 latestIntent = ""
 
@@ -49,7 +50,6 @@ app.get('/recipes/:id', async (req, res) => {
         const id = req.params.id;
         const collection = db('Remy').collection('Recipes');
         const recipe = await collection.findOne({ _id: new ObjectId(id) });
-        console.log(recipe);
         res.status(200).send(recipe);
     } catch (error) {
         console.error(error);
@@ -62,7 +62,7 @@ app.get('/spoonacular/recipes', async (req, res) => {
         const { cuisine, ingredients, diet,  } = req.query;
         // build the params object with optional search constraints
         const params = {
-            apiKey: 'd19c08ad32394f988780a1fb40331452',
+            apiKey: APIKEY,
             addRecipeInformation: true,
             addRecipeNutrition: true,
             instructionsRequired: true,
@@ -85,19 +85,19 @@ app.get('/spoonacular/recipes', async (req, res) => {
 
 app.get('/spoonacular/recipes/:id', async (req, res) => {
     try {
-        const { id } = req.params.id;
+        const id = req.params.id;
     
         // build the params object to include nutritional information
         const params = {
-        apiKey: 'd19c08ad32394f988780a1fb40331452',
-        includeNutrition: true
+            apiKey: APIKEY,
+            includeNutrition: true
         };
         
         // call Spoonacular API with the built params object
         const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/information`, { params });
-      
+        
         // send recipe data back to the client
-        res.send(response.data.results);
+        res.send(response.data);
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');

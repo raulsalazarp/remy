@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, Divider, List, ListItem, ListItemIcon, ListItemText, Card, Typography} from '@mui/material';
-import {arrayOf, shape, string, number, func} from 'prop-types';
+import {array, shape, string, number, func} from 'prop-types';
 import PhoneIcon from '@mui/icons-material/PhoneRounded';
 import WebsiteIcon from '@mui/icons-material/OpenInBrowserRounded';
 import { Box } from "@mui/system";
@@ -20,7 +20,7 @@ export default function Ingredients({ingredients, onBegin}) {
                         <ListItemIcon>
                             <img src="/bullet.svg" height={12}/>
                         </ListItemIcon>
-                    <ListItemText sx={{marginLeft: -2}}>{i}</ListItemText>
+                    <ListItemText sx={{marginLeft: -2}}>{i.name.charAt(0).toUpperCase() + i.name.slice(1)}</ListItemText>
                 </ListItem>
                 )}
             </List>
@@ -37,6 +37,6 @@ export default function Ingredients({ingredients, onBegin}) {
 }
 
 Ingredients.propTypes = {
-    ingredients: arrayOf(string),
+    ingredients: array,
     onBegin: func
 }

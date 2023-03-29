@@ -105,7 +105,7 @@ const App = () => {
        <Route exact path="/" element={<Landing />} />
        <Route path="/home" element={<Home />} />
        <Route path="/test" element={<Test />} />
-       <Route path="/detail/:id/:ratings/:time/:cal/:serv" element={<Detail/>}/>
+       <Route path="/detail/:id/" element={<Detail/>}/>
        <Route path="/steps/:id" element={<Step />}/>
      </Routes>
    </ThemeProvider>

@@ -4,12 +4,13 @@ import { useParams } from 'react-router-dom';
 export default () => {
   const [recipe, setRecipe] = useState([]);
   const [loading, setLoading] = useState(true);
-  const {id, ratings, time, cal, serv} = useParams();
+  const {id} = useParams();
 
   useEffect(() => {
     const fetchRecipe = async () => {
-        const res = await fetch(`http://localhost:5001/recipes/${id}`);
+        const res = await fetch(`http://localhost:5001/spoonacular/recipes/${id}`);
         const data = await res.json();
+        console.log(data);
         setRecipe(data);
         setLoading(false);
     };
@@ -19,5 +20,5 @@ export default () => {
     }
   }, []);
 
-  return [recipe, loading, ratings, time, cal, serv];
+  return [recipe, loading];
 };

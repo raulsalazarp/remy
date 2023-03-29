@@ -23,22 +23,11 @@ function rand(min, max, mult) {
 export default function RecipeCard({ recipe }) {
 
     const navigate = useNavigate();
-    const [ratings, setRatings] = useState(0);
-    const [time, setTime] = useState(0);
-    const [cal, setCal] = useState(0);
-    const [serv, setServ] = useState(0);
-
-    useEffect(() => {
-        setRatings(rand(20, 200, 1));
-        setTime(rand(35, 70, 5));
-        setCal(rand(300, 700, 10));
-        setServ(rand(5, 15, 1));
-    }, [])
 
     return (
         <Box>
             <img src={recipe.image} width="100%" height={125} style={{borderRadius: 7, objectFit: "cover"}}
-                onClick={() => navigate(`/detail/${recipe._id}/${ratings}/${time}/${cal}/${serv}`)}
+                onClick={() => navigate(`/detail/${recipe.id}`)}
             />
             <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                 <Typography 
@@ -94,7 +83,6 @@ RecipeCard.propTypes = {
         id: number,
         title: string,
         analyzedInstructions: string,
-        Ingredients: string,
         image: string,
         summary: string,
         readyInMinutes: number,
