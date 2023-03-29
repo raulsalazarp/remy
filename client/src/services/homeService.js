@@ -6,8 +6,9 @@ export default () => {
 
   useEffect(() => {
     const fetchRecipes = async () => {
-        const res = await fetch('http://localhost:5001/recipes');
+        const res = await fetch('http://localhost:5001/spoonacular/recipes');
         const data = await res.json();
+        console.log(data);
         setRecipes(data);
         setLoading(false);
     };
