@@ -24,7 +24,7 @@ export default function RecipeStep() {
                 <Toolbar/>
                 <Grid container>
                     <Grid item xs={6}>
-                        <img src={`/${recipe.Image_Name}.jpg`} width="100%" height={475} style={{borderRadius: 10, objectFit: "cover"}}/>
+                        <img src={recipe.image} width="100%" height={475} style={{borderRadius: 10, objectFit: "cover"}}/>
                     </Grid>
                     <Grid item xs={6} sx={{padding: 2, height: 475, display: "flex", flexDirection: "column"}}>
                         <Box>
@@ -36,7 +36,7 @@ export default function RecipeStep() {
                                 )) : null}
                             </Stepper>
                             <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center", width: "100%", marginTop: 2}}>
-                                <Typography textAlign="center" variant="overline" fontSize={11}>{`STEP ${step} OF 5`}</Typography>
+                                <Typography textAlign="center" variant="overline" fontSize={11}>{`STEP ${step} OF ${instructions.length}`}</Typography>
                                 <Typography textAlign="center" variant="h5" fontSize={24}>{titles ? titles[step-1] : null}</Typography>
                                 <Box sx={{display: "flex", justifyContent: "center", width: "100%"}}>
                                     <Typography textAlign="center" variant="body1" fontSize={16} sx={{marginTop: 3, width: "70%"}}>

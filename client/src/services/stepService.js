@@ -27,25 +27,27 @@ export default () => {
     const [recipe, setRecipe] = useState([]);
     const [loading, setLoading] = useState(true);
     const [step, setStep] = useState(1);
-    const [instructions, setInstructions] = useState([]);
     const [titles, setTitles] = useState([]); 
+    const [instructions, setInstructions] = useState([]);
     const { transcript, resetTranscript } = useSpeechRecognition({ commands });
     const {id} = useParams();
 
     const lameWords = ["the", "a", "in", "large", "bowl", "medium", "let"];
 
     const getSteps = () => {
-        console.log(recipe)
-        let list = recipe.Instructions.split(". ")
-        setInstructions(list);
+        let tempInstr = [];
+        recipe.analyzedInstructions[0].steps.forEach(instr => {
+            tempInstr.push(instr.step);
+        })
+        setInstructions(tempInstr);
         // create titles
         let tempTitles = [];
-        list.forEach(instr => {
+        recipe.analyzedInstructions[0].steps.forEach(instr => {
             let first = "the";
             let i = 0;
             while (lameWords.indexOf(first.toLowerCase()) > -1) {
                 console.log(first)
-                first = instr.split(' ')[i].replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,'');
+                first = instr.step.split(' ')[i].replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,'');
                 i++;
             }
             first = first.charAt(0).toUpperCase() + first.substring(1, first.length)
@@ -86,8 +88,9 @@ export default () => {
 
     useEffect(() => {
         const fetchRecipe = async () => {
-            const res = await fetch(`http://localhost:5001/recipes/${id}`);
+            const res = await fetch(`http://localhost:5001/spoonacular/recipes/${id}`);
             const data = await res.json();
+            console.log(data);
             setRecipe(data);
             setLoading(false);
         };

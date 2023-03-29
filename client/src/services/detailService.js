@@ -10,7 +10,6 @@ export default () => {
     const fetchRecipe = async () => {
         const res = await fetch(`http://localhost:5001/spoonacular/recipes/${id}`);
         const data = await res.json();
-        console.log(data);
         setRecipe(data);
         setLoading(false);
     };
