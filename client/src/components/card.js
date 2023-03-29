@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {Box, Typography, Rating} from '@mui/material';
-import { string, shape, number, bool } from "prop-types";
+import { string, shape, number, bool, array } from "prop-types";
 import {styled} from '@mui/material/styles';
 import TimeIcon from '@mui/icons-material/AccessTimeRounded';
 import FireIcon from '@mui/icons-material/LocalFireDepartmentOutlined';
@@ -64,7 +64,9 @@ export default function RecipeCard({ recipe }) {
                 </Box>
                 <Box sx={{display: "flex", alignItems: "center", gap: "2px"}}>
                     <FireIcon color="secondary" fontSize="small" sx={{height: "16px"}}/>
-                    <Typography fontSize={11} color="secondary.dark">{cal} cal</Typography>
+                    <Typography fontSize={11} color="secondary.dark">
+                        {Math.round(recipe.nutrition.nutrients[0].amount)} cal
+                    </Typography>
                 </Box>
                 <Box sx={{display: "flex", alignItems: "center", gap: "2px"}}>
                     <RestaurantIcon color="secondary" fontSize="small" sx={{height: "16px"}}/>
@@ -98,7 +100,10 @@ RecipeCard.propTypes = {
         readyInMinutes: number,
         servings: number,
         aggregateLikes: number,
-        healthScore: number
-        //TODO calories, ingredients
+        healthScore: number,
+        nutrition: shape({
+            nutrients: array,
+            ingredients: array
+        })
     })
 }
