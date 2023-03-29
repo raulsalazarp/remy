@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {FormControl, InputLabel, Select, MenuItem, Grid, Toolbar, Box, Typography} from '@mui/material';
+import {FormControl, InputLabel, Select, MenuItem, Grid, Toolbar, Box, Typography,
+OutlinedInput, InputAdornment} from '@mui/material';
 import MuiBox from '@mui/material/Box';
 import {styled} from '@mui/material/styles';
 import Filter from "../components/filter";
@@ -7,6 +8,7 @@ import Navbar from '../components/navbar';
 import RecipeCard from '../components/card';
 import useService from '../services/homeService';
 import Loading from '../components/loading';
+import SearchIcon from '@mui/icons-material/SearchRounded';
 
 const Main = styled((props) => (
 	<MuiBox component="main" {...props} />
@@ -31,8 +33,20 @@ export default function Home() {
                     <Grid item xs={12}><Toolbar/></Grid>
                     <Grid item xs={12} sx={{padding: 2}}>
                         <Grid container spacing={3}>
-                            <Grid item xs={12}>
-                                <Box sx={{display: "flex", justifyContent: "flex-end", width: "100%"}}>
+                            <Grid item xs={12} justifyContent="space-between" alignItems="center" display="flex">
+                                <Typography variant="h4">Popular Recipes</Typography>
+                                <Box sx={{display: "flex", alignItems: "center"}}>
+                                    <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" size="small">
+                                        <OutlinedInput
+                                            startAdornment={
+                                            <InputAdornment position="end">
+                                                <SearchIcon/>
+                                            </InputAdornment>
+                                            }
+                                            placeholder="Search"
+                                            onKeyDown={(e) => {if (e.key === "Enter") console.log("send search request to server here using e.target.value")}}
+                                        />
+                                    </FormControl>
                                     <FormControl size="small">
                                         <InputLabel>Sort By</InputLabel>
                                         <Select

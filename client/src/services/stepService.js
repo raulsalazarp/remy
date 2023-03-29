@@ -105,6 +105,10 @@ export default () => {
             fetchRecipe();
             listen();
         }
+
+        return function cleanup() {
+			SpeechRecognition.stopListening();
+		}
     }, []);
 
   return [recipe, loading, step, setStep, instructions, titles];

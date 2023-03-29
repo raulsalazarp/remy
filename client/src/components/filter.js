@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import {Drawer, Toolbar, AccordionSummary, Box, AccordionDetails, Typography, Slider,
 FormControl, InputLabel, OutlinedInput, InputAdornment, ToggleButton, ToggleButtonGroup,
-FormControlLabel, Grid, Checkbox, Rating} from '@mui/material';
+FormControlLabel, Grid, Checkbox, Rating, Divider} from '@mui/material';
 import AddIcon from '@mui/icons-material/AddRounded';
 import MinusIcon from '@mui/icons-material/RemoveRounded';
 import HouseIcon from '@mui/icons-material/HouseTwoTone';
@@ -43,11 +43,6 @@ export default function Filter({dwellings, setDwellings}) {
 	const [rating, setRating] = useState(0);
 	const [time, setTime] = useState([0, 2]);
 
-	const filterOutdoor = () => {
-		const filtered = dwellings.filter(d => d.amenities.outdoorSpace === true);
-		setDwellings(filtered);
-	}
-
   	return (
       	<Drawer
 			sx={{
@@ -65,6 +60,15 @@ export default function Filter({dwellings, setDwellings}) {
         	<Box sx={{padding: 2}}>
 				<Typography variant="h3" fontSize={18} fontWeight="bold" sx={{marginBottom: "3px"}}>What's Cookin'?</Typography>
 				<Typography variant="body1" fontSize={12}>Over 1,000 recipes available</Typography>
+				<Box sx={{display: "flex", gap: 1, alignItems: "center", marginTop: 2, marginBottom: 2}}>
+					<img src="/Remy.png" height={50}/>
+					<Box>
+						<Typography variant="h6" fontWeight="bold" fontSize={13}>Remy is here to help!</Typography>
+						<Typography variant="body2" fontSize={10}>Speak to interact and Remy will do the rest. Start with “hey Remy!”</Typography>
+					</Box>
+					<img src="/Speak.png" height={20}/>
+				</Box>
+				<Divider/>
 				<Accordion expanded={open1} onChange={() => setOpen1(!open1)}>
 					<AccordionSummary expandIcon={open1 ? <MinusIcon /> : <AddIcon/>}>
 						<Typography variant="h6" fontSize={16}>Meal</Typography>
