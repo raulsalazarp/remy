@@ -33,18 +33,6 @@ app.get('/recipes', async (req, res) => {
     }
 });
 
-// app.get('/recipes/:recipeName', async (req, res) => {
-//     try {
-//         const recipeName = req.params.recipeName;
-//         const collection = db('Remy').collection('Recipes');
-//         const recipe = await collection.findOne({ Title: recipeName });
-//         res.status(200).send(recipe);
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).send('Internal Server Error');
-//     }
-// });
-
 app.get('/recipes/:id', async (req, res) => {
     try {
         const id = req.params.id;
@@ -59,7 +47,7 @@ app.get('/recipes/:id', async (req, res) => {
 
 app.get('/spoonacular/recipes', async (req, res) => {
     try {
-        const { cuisine, ingredients, diet,  } = req.query;
+        const { cuisine, ingredients, diet, intolerances } = req.query;
         // build the params object with optional search constraints
         const params = {
             apiKey: APIKEY,
@@ -71,6 +59,7 @@ app.get('/spoonacular/recipes', async (req, res) => {
         if (cuisine) params.cuisine = cuisine;
         if (ingredients) params.includeIngredients = ingredients;
         if (diet) params.diet = diet;
+        if (intolerances) params.intolerances = intolerances;
         
         // call Spoonacular API with the built params object
         const response = await axios.get('https://api.spoonacular.com/recipes/complexSearch', { params });
