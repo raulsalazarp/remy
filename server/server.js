@@ -64,7 +64,7 @@ app.get('/spoonacular/recipes', async (req, res) => {
         const params = {
             apiKey: 'd19c08ad32394f988780a1fb40331452',
             addRecipeInformation: true,
-            addNutrientInformation: true,
+            addRecipeNutrition: true,
             instructionsRequired: true,
             number: 50 // limit the number of results
         };
