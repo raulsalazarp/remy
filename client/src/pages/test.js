@@ -44,7 +44,6 @@ export default function Test() {
   }
 
   const spoonacularRecipes = () => {
-
     fetch('http://localhost:5001/spoonacular/recipes')
       .then(response => response.json())
       .then(data => console.log(data))
@@ -52,7 +51,13 @@ export default function Test() {
   }
 
   const spoonacularItalianRecipes = () => {
-    fetch('http://localhost:5001/spoonacular/recipes?cuisine=italian&ingredients=chicken')
+    const queryParams = new URLSearchParams({
+        cuisine: 'italian',
+        ingredients: 'tomatoes,basil',
+        diet: 'vegetarian',
+        intolerances: 'gluten'
+    }).toString();
+    fetch('http://localhost:5001/spoonacular/recipes?'+queryParams)
       .then(response => response.json())
       .then(data => console.log(data))
       .catch(error => console.error(error));
