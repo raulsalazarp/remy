@@ -3,6 +3,41 @@ import { useParams } from 'react-router-dom';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 export default () => {
+
+    const [listening, setListening] = useState(false);
+    const [lastInterimTranscript, setLastInterimTranscript] = useState('');
+    // const { transcript, resetTranscript } = useSpeechRecognition({ commands });
+
+    const { transcript, resetTranscript, interimTranscript, listening: isRecognitionListening } = useSpeechRecognition();
+
+
+    useEffect(() => {
+        if (interimTranscript) {
+          // Update the last interim transcript
+          setLastInterimTranscript(interimTranscript);
+        } else if (lastInterimTranscript) {
+          // Process the last interim transcript when the current interimTranscript is empty
+        //   console.log('Last interim transcript:', lastInterimTranscript);
+        //   console.log(transcript);
+            // let command = transcript.substring((transcript.lastIndexOf("Remy")+4),transcript.lastIndexOf("done")-1);
+            let command = lastInterimTranscript
+            resetTranscript();
+            console.log(command);
+            fetch('http://localhost:5001/text-input', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ command })
+            })
+            .then(response => response.text()) 
+            .then(data => handleIntent(data))
+    
+          // Clear the last interim transcript
+          setLastInterimTranscript('');
+        }
+      }, [interimTranscript]);
+
     const commands = [
         {
           command: "done",
@@ -29,7 +64,6 @@ export default () => {
     const [step, setStep] = useState(1);
     const [titles, setTitles] = useState([]); 
     const [instructions, setInstructions] = useState([]);
-    const { transcript, resetTranscript } = useSpeechRecognition({ commands });
     const {id} = useParams();
 
     const lameWords = ["the", "a", "in", "large", "bowl", "medium", "let"];

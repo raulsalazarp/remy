@@ -7,7 +7,7 @@ export default () => {
 
   	const [recipes, setRecipes] = useState([]);
   	const [loading, setLoading] = useState(true);
-  	const { transcript, resetTranscript } = useSpeechRecognition({ commands });
+  	const { transcript, resetTranscript, interimTranscript} = useSpeechRecognition({ commands });
 
 	const filterRecipes = async (json) => {
 		const queryParams = new URLSearchParams(json);
@@ -18,6 +18,16 @@ export default () => {
 		setLoading(false);
 	}
 
+	const handleEnd = () => {
+		// Process the speech input, for example, execute a command
+		console.log('Transcript:', transcript);
+	};
+
+	const handleResult = () => {
+		// Process the speech input, for example, execute a command
+		console.log('Transcript:', transcript);
+	};
+
   	useEffect(() => {
     	const fetchRecipes = async () => {
 			const res = await fetch('http://localhost:5001/spoonacular/recipes');
@@ -25,10 +35,13 @@ export default () => {
 			setRecipes(data);
 			setLoading(false);
 		};
+
 		const listen = () => {
 			SpeechRecognition.startListening({
 				continuous: true,
-				language: 'en-US'
+				language: 'en-US',
+				onResult: handleResult,
+				onEnd: handleEnd,
 			});
  		}
 
@@ -42,5 +55,5 @@ export default () => {
 		}
   	}, []);
 
-  	return [recipes, loading, filterRecipes];
+  	return [recipes, loading, filterRecipes, transcript, interimTranscript];
 };
