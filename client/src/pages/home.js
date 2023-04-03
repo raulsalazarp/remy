@@ -20,14 +20,13 @@ export default function Home() {
 
     const [sortby, setSortby] = useState("Reviews");
     const dummyRecipes = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
-    const [recipes, loading] = useService();
+    const [recipes, loading, filterRecipes] = useService();
 
     return (
-        loading ? <Loading/> :
         <>
-            {recipes.forEach(r => console.log(r))}
             <Navbar />
-            <Filter />
+            <Filter filterRecipes={(data) => filterRecipes(data)}/>
+            {loading ? <Loading left='60%' right='40%'/> :
             <Main>
                 <Grid container>
                     <Grid item xs={12}><Toolbar/></Grid>
@@ -69,7 +68,7 @@ export default function Home() {
                         </Grid>
                     </Grid>
                 </Grid>
-            </Main>
+            </Main>}
         </>
     )
 }

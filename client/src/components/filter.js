@@ -33,7 +33,32 @@ const StyledRating = styled(Rating) (({ theme }) => ({
 	  }
   }));
 
-export default function Filter({dwellings, setDwellings}) {
+export default function Filter({filterRecipes}) {
+
+	const formatFilter = (category, filt, apply) => {
+		// if (apply) {
+		// 	const data = `${category}=${filt}`;
+		// 	console.log(data);
+		// 	filterRecipes(data);
+		// }
+		let temp = filters;
+		if (category === "maxReadyTime") {
+			temp[category] = filt;
+			setFilters(temp);
+		}
+		else if (apply) {
+			temp[category].push(filt);
+			setFilters(temp);
+		}
+		else {
+			let index = temp[category].indexOf(filt);
+			if (index !== -1) {
+				temp[category].splice(index, 1);
+			}
+			setFilters(temp);
+		}
+		filterRecipes(filters);
+	}
 
 	const [open1, setOpen1] = useState(false);
 	const [open2, setOpen2] = useState(false);
@@ -41,7 +66,14 @@ export default function Filter({dwellings, setDwellings}) {
 	const [open4, setOpen4] = useState(false);
 	const [open5, setOpen5] = useState(false);
 	const [rating, setRating] = useState(0);
-	const [time, setTime] = useState([0, 2]);
+	const [time, setTime] = useState(120);
+	const [filters, setFilters] = useState({
+		cuisine: [],
+		ingredients: [],
+		diet: [],
+		intolerances: [],
+		maxReadyTime: 120
+	});
 
   	return (
       	<Drawer
@@ -76,16 +108,38 @@ export default function Filter({dwellings, setDwellings}) {
 					<AccordionDetails sx={{display: "flex", flexDirection: "row", alignItems: "center", gap: 1}}>
 						<Grid container>
 							<Grid item xs={6}>
-								<FormControlLabel control={<Checkbox />} label="Breakfast"/>
-								<FormControlLabel control={<Checkbox />} label="Lunch"/>
-								<FormControlLabel control={<Checkbox />} label="Dinner"/>
-								<FormControlLabel control={<Checkbox />} label="Dessert"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("type", "breakfast", e.target.checked)}/>}
+									label="Breakfast"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("type", "main course", e.target.checked)}/>}
+									label="Main Course"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("type", "side dish", e.target.checked)}/>}
+									label="Side Dish"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("type", "dessert", e.target.checked)}/>}
+									label="Dessert"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("type", "salad", e.target.checked)}/>}
+									label="Salad"/>
 							</Grid>
 							<Grid item xs={6}>
-								<FormControlLabel control={<Checkbox />} label="Snack"/>
-								<FormControlLabel control={<Checkbox />} label="Appetizer"/>
-								<FormControlLabel control={<Checkbox />} label="Sides"/>
-								<FormControlLabel control={<Checkbox />} label="Bread"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("type", "snack", e.target.checked)}/>}
+									label="Snack"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("type", "appetizer", e.target.checked)}/>}
+									label="Appetizer"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("type", "drink", e.target.checked)}/>}
+									label="Drink"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("type", "bread", e.target.checked)}/>}
+									label="Bread"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("type", "soup", e.target.checked)}/>}
+									label="Soup"/>
 							</Grid>
 						</Grid>
 					</AccordionDetails>
@@ -97,16 +151,44 @@ export default function Filter({dwellings, setDwellings}) {
 					<AccordionDetails sx={{display: "flex", flexDirection: "column", gap: 1}}>
 						<Grid container>
 							<Grid item xs={6}>
-								<FormControlLabel control={<Checkbox />} label="Mexican"/>
-								<FormControlLabel control={<Checkbox />} label="Italian"/>
-								<FormControlLabel control={<Checkbox />} label="Chinese"/>
-								<FormControlLabel control={<Checkbox />} label="Indian"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("cuisine", "american", e.target.checked)}/>}
+									label="American"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("cuisine", "mexican", e.target.checked)}/>}
+									label="Mexican"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("cuisine", "italian", e.target.checked)}/>} 
+									label="Italian"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("cuisine", "chinese", e.target.checked)}/>}
+									label="Chinese"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("cuisine", "indian", e.target.checked)}/>}
+									label="Indian"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("cuisine", "cajun", e.target.checked)}/>}
+									label="Cajun"/>
 							</Grid>
 							<Grid item xs={6}>
-								<FormControlLabel control={<Checkbox />} label="Mediterranean"/>
-								<FormControlLabel control={<Checkbox />} label="American"/>
-								<FormControlLabel control={<Checkbox />} label="Japanese"/>
-								<FormControlLabel control={<Checkbox />} label="French"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("cuisine", "mediterranean", e.target.checked)}/>}
+									label="Mediterranean"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("cuisine", "caribbean", e.target.checked)}/>}
+									label="Caribbean"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("cuisine", "japanese", e.target.checked)}/>}
+									label="Japanese"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("cuisine", "french", e.target.checked)}/>}
+									label="French"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("cuisine", "greek", e.target.checked)}/>}
+									label="Greek"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("cuisine", "thai", e.target.checked)}/>}
+									label="Thai"/>
 							</Grid>
 						</Grid>
 					</AccordionDetails>
@@ -130,7 +212,7 @@ export default function Filter({dwellings, setDwellings}) {
 					<AccordionDetails>
 						<Slider
 							value={time}
-							onChange={(e, val) => setTime(val)}
+							onChange={(e, val) => {setTime(val); formatFilter("maxReadyTime", val, true)}}
 							valueLabelDisplay="auto"
 							getAriaValueText={valuetext}
 							min={0}
@@ -150,16 +232,32 @@ export default function Filter({dwellings, setDwellings}) {
 					<AccordionDetails>
 						<Grid container>
 							<Grid item xs={6}>
-								<FormControlLabel control={<Checkbox />} label="Gluten Free"/>
-								<FormControlLabel control={<Checkbox />} label="Dairy Free"/>
-								<FormControlLabel control={<Checkbox />} label="Vegetarian"/>
-								<FormControlLabel control={<Checkbox />} label="Vegan"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("intolerances", "gluten", e.target.checked)}/>}
+									label="Gluten Free"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("intolerances", "dairy", e.target.checked)}/>}
+									label="Dairy Free"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("diet", "vegetarian", e.target.checked)}/>}
+									label="Vegetarian"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("diet", "vegan", e.target.checked)}/>}
+									label="Vegan"/>
 							</Grid>
 							<Grid item xs={6}>
-								<FormControlLabel control={<Checkbox />} label="Kosher"/>
-								<FormControlLabel control={<Checkbox />} label="Keto"/>
-								<FormControlLabel control={<Checkbox />} label="Pescetarian"/>
-								<FormControlLabel control={<Checkbox />} label="Nut Free"/>
+							<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("diet", "kosher", e.target.checked)}/>}
+									label="Kosher"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("diet", "ketogenic", e.target.checked)}/>}
+									label="Keto"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("diet", "pescetarian", e.target.checked)}/>}
+									label="Pescetarian"/>
+								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("intolerances", "tree nut", e.target.checked)}/>}
+									label="Nut Free"/>
 							</Grid>
 						</Grid>
 					</AccordionDetails>
@@ -167,4 +265,8 @@ export default function Filter({dwellings, setDwellings}) {
 		    </Box>
         </Drawer>
     );
+}
+
+Filter.propTypes = {
+	filterRecipes: func
 }

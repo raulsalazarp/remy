@@ -9,7 +9,7 @@ const { ObjectId } = require("mongodb");
 const axios = require('axios');
 
 const PORT = process.env.PORT || 5001;
-const APIKEY = '6cdaa136795642c2a701df6a530f68d1'; //'d19c08ad32394f988780a1fb40331452'
+const APIKEY = 'd19c08ad32394f988780a1fb40331452'; //'6cdaa136795642c2a701df6a530f68d1';
 
 latestIntent = ""
 
@@ -47,7 +47,7 @@ app.get('/recipes/:id', async (req, res) => {
 
 app.get('/spoonacular/recipes', async (req, res) => {
     try {
-        const { cuisine, ingredients, diet, intolerances } = req.query;
+        const { cuisine, ingredients, diet, intolerances, maxReadyTime } = req.query;
         // build the params object with optional search constraints
         const params = {
             apiKey: APIKEY,
@@ -60,6 +60,7 @@ app.get('/spoonacular/recipes', async (req, res) => {
         if (ingredients) params.includeIngredients = ingredients;
         if (diet) params.diet = diet;
         if (intolerances) params.intolerances = intolerances;
+        if (maxReadyTime) params.maxReadyTime = maxReadyTime;
         
         // call Spoonacular API with the built params object
         const response = await axios.get('https://api.spoonacular.com/recipes/complexSearch', { params });
