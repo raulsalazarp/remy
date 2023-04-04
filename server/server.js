@@ -48,7 +48,7 @@ app.get('/recipes/:id', async (req, res) => {
 
 app.get('/spoonacular/recipes', async (req, res) => {
     try {
-        const { cuisine, ingredients, diet, intolerances, maxReadyTime } = req.query;
+        const { cuisine, ingredients, diet, intolerances, maxReadyTime, type } = req.query;
         // build the params object with optional search constraints
         const params = {
             apiKey: APIKEY,
@@ -62,7 +62,7 @@ app.get('/spoonacular/recipes', async (req, res) => {
         if (diet) params.diet = diet;
         if (intolerances) params.intolerances = intolerances;
         if (maxReadyTime) params.maxReadyTime = maxReadyTime;
-        
+        if (type) params.type = type;
         // call Spoonacular API with the built params object
         const response = await axios.get('https://api.spoonacular.com/recipes/complexSearch', { params });
       
