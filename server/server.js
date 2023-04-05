@@ -130,12 +130,27 @@ app.post("/text-input", async (req, res) => {
     try {
         const responses = await sessionClient.detectIntent(request);
         const result = responses[0].queryResult;
+        // console.log(result.parameters.fields.cuisine.stringValue)
+        // console.log(result.parameters.fields.mealType.stringValue)
+        // console.log(result.parameters.fields.ingredients.stringValue)
         const intent = result.intent.displayName;
-        console.log("intent:")
-        latestIntent = intent
-        console.log(latestIntent)
+        
         console.log("\n")
-        res.status(200).send({ data: intent });
+        if(intent == "recipe"){
+            res.status(200).send({ intent: intent, parameters: result.parameters.fields });
+            console.log("intent:")
+            latestIntent = intent
+            console.log(latestIntent)
+            console.log(result.parameters.fields.cuisine.stringValue)
+            console.log(result.parameters.fields.mealType.stringValue)
+            console.log(result.parameters.fields.ingredients.stringValue)
+        }
+        else{
+            res.status(200).send({ intent: intent });
+            console.log("intent:")
+            latestIntent = intent
+            console.log(latestIntent)
+        }
     } catch (e) {
         console.log(e);
         res.status(422).send({ e });

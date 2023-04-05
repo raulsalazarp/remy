@@ -68,6 +68,7 @@ export default function Filter({filterRecipes}) {
 	const [rating, setRating] = useState(0);
 	const [time, setTime] = useState(120);
 	const [filters, setFilters] = useState({
+		mealType: [],
 		cuisine: [],
 		ingredients: [],
 		diet: [],

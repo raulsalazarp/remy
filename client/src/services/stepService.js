@@ -11,15 +11,47 @@ export default () => {
     const { transcript, resetTranscript, interimTranscript, listening: isRecognitionListening } = useSpeechRecognition();
 
 
+    const handleIntent = (intent, parameters) => {
+		console.log("intent: XX_"+intent.String+"_XX")
+        if(intent == "prev"){
+            setStep(step - 1)
+        }
+        if(intent == "next"){
+            setStep(step + 1)
+        }
+        if(intent == "speak"){
+            speakText(instructions[step - 1]);
+        }
+        else{
+            //intent is command not recognized
+            //do nothing 
+            console.log(intent)
+        }
+	}
+    // const handleIntent = (data) => {
+    //     let intent = data.intent
+    //     console.log("intent: XX_"+intent+"_XX")
+    //     if(intent == "prev"){
+    //         setStep(step - 1)
+    //     }
+    //     if(intent == "next"){
+    //         setStep(step + 1)
+    //     }
+    //     if(intent == "speak"){
+    //         speakText(instructions[step - 1]);
+    //     }
+    //     else{
+    //         //intent is command not recognized
+    //         //do nothing 
+    //         console.log(intent)
+    //     }
+    // }
+
     useEffect(() => {
         if (interimTranscript) {
           // Update the last interim transcript
           setLastInterimTranscript(interimTranscript);
         } else if (lastInterimTranscript) {
-          // Process the last interim transcript when the current interimTranscript is empty
-        //   console.log('Last interim transcript:', lastInterimTranscript);
-        //   console.log(transcript);
-            // let command = transcript.substring((transcript.lastIndexOf("Remy")+4),transcript.lastIndexOf("done")-1);
             let command = lastInterimTranscript
             resetTranscript();
             console.log(command);
@@ -30,34 +62,37 @@ export default () => {
                 },
                 body: JSON.stringify({ command })
             })
-            .then(response => response.text()) 
-            .then(data => handleIntent(data))
+            .then(response => response.json())  
+			.then(data => handleIntent(data.intent, data.parameters)) 
+            // .then(intent,parameters => handleIntent(data,parameters))
+            // .then(data => console.log(data))
+			
     
           // Clear the last interim transcript
           setLastInterimTranscript('');
         }
       }, [interimTranscript]);
 
-    const commands = [
-        {
-          command: "done",
-          callback: () => {
-            console.log(transcript);
-            let command = transcript.substring((transcript.lastIndexOf("Remy")+4),transcript.lastIndexOf("done")-1);
-            resetTranscript();
-            console.log(command);
-            fetch('http://localhost:5001/text-input', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ command })
-            })
-            .then(response => response.text()) 
-            .then(data => handleIntent(data))
-          },
-        }
-      ];
+    // const commands = [
+    //     {
+    //       command: "done",
+    //       callback: () => {
+    //         console.log(transcript);
+    //         let command = transcript.substring((transcript.lastIndexOf("Remy")+4),transcript.lastIndexOf("done")-1);
+    //         resetTranscript();
+    //         console.log(command);
+    //         fetch('http://localhost:5001/text-input', {
+    //             method: 'POST',
+    //             headers: {
+    //             'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify({ command })
+    //         })
+    //         .then(response => response.json()) 
+    //         .then(data => handleIntent(data.intent))
+    //       },
+    //     }
+    //   ];
 
     const [recipe, setRecipe] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -95,24 +130,7 @@ export default () => {
             getSteps()
     }, [recipe])
 
-    const handleIntent = (data) => {
-        let intent = data.substring(9,data.lastIndexOf("\""))
-        console.log("intent: XX_"+intent+"_XX")
-        if(intent == "prev"){
-            setStep(step - 1)
-        }
-        if(intent == "next"){
-            setStep(step + 1)
-        }
-        if(intent == "speak"){
-            speakText(instructions[step - 1]);
-        }
-        else{
-            //intent is command not recognized
-            //do nothing 
-            console.log(intent)
-        }
-    }
+    
 
     const speakText = (text) => {
         const speaker = new SpeechSynthesisUtterance()
