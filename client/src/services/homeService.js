@@ -43,9 +43,18 @@ export default () => {
 		let cuisine = parameters.cuisine.stringValue
 		let ingredients = parameters.ingredients.stringValue
 		let mealType = parameters.mealType.stringValue
+		let filters = {
+			type: [mealType],
+			cuisine: [cuisine],
+			ingredients: [],
+			diet: [ingredients],
+			intolerances: [],
+			maxReadyTime: 120
+		}
 		console.log("cuisine: "+cuisine)
 		console.log("ingredients: "+ingredients)
 		console.log("mealType: "+mealType)
+		filterRecipes(filters);
 		//what to do with these now?
 	}
 

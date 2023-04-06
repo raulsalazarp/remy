@@ -68,7 +68,7 @@ export default function Filter({filterRecipes}) {
 	const [rating, setRating] = useState(0);
 	const [time, setTime] = useState(120);
 	const [filters, setFilters] = useState({
-		mealType: [],
+		type: [],
 		cuisine: [],
 		ingredients: [],
 		diet: [],
@@ -176,6 +176,9 @@ export default function Filter({filterRecipes}) {
 									control={<Checkbox onChange={e => formatFilter("cuisine", "mediterranean", e.target.checked)}/>}
 									label="Mediterranean"/>
 								<FormControlLabel
+									control={<Checkbox onChange={e => formatFilter("cuisine", "thai", e.target.checked)}/>}
+									label="Thai"/>
+								<FormControlLabel
 									control={<Checkbox onChange={e => formatFilter("cuisine", "caribbean", e.target.checked)}/>}
 									label="Caribbean"/>
 								<FormControlLabel
@@ -187,9 +190,6 @@ export default function Filter({filterRecipes}) {
 								<FormControlLabel
 									control={<Checkbox onChange={e => formatFilter("cuisine", "greek", e.target.checked)}/>}
 									label="Greek"/>
-								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("cuisine", "thai", e.target.checked)}/>}
-									label="Thai"/>
 							</Grid>
 						</Grid>
 					</AccordionDetails>
