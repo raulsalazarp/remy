@@ -213,7 +213,8 @@ export default function Filter({filterRecipes}) {
 					<AccordionDetails>
 						<Slider
 							value={time}
-							onChange={(e, val) => {setTime(val); formatFilter("maxReadyTime", val, true)}}
+							onChange={(e, val) => setTime(val)}
+							onChangeCommitted={() => formatFilter("maxReadyTime", time, true)}
 							valueLabelDisplay="auto"
 							getAriaValueText={valuetext}
 							min={0}
