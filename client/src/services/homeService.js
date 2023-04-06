@@ -1,6 +1,7 @@
 import { integerPropType } from '@mui/utils';
 import { useState, useEffect } from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import useSound from 'use-sound';
 
 export default () => {
 
@@ -11,6 +12,10 @@ export default () => {
 	const [lastInterimTranscript, setLastInterimTranscript] = useState('');
 	const { transcript, resetTranscript, interimTranscript, listening: isRecognitionListening } = useSpeechRecognition({commands});
 
+	const [playSound] = useSound(
+		'/ding.wav',
+		{ volume: 0.25 }
+	);
 
 	const filterRecipes = async (json) => {
 		const queryParams = new URLSearchParams(json);
@@ -75,6 +80,7 @@ export default () => {
             })
             .then(response => response.json())  
 			.then(data => handleIntent(data.intent, data.parameters)) 
+			.then(playSound())
     
           // Clear the last interim transcript
           setLastInterimTranscript('');

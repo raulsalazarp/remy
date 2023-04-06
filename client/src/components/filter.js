@@ -194,7 +194,7 @@ export default function Filter({filterRecipes}) {
 						</Grid>
 					</AccordionDetails>
 				</Accordion>
-				<Accordion expanded={open3} onChange={() => setOpen3(!open3)}>
+				{/* <Accordion expanded={open3} onChange={() => setOpen3(!open3)}>
 					<AccordionSummary expandIcon={open3 ? <MinusIcon /> : <AddIcon/>}>
 						<Typography variant="h6" fontSize={16}>Ratings</Typography>
 					</AccordionSummary>
@@ -205,7 +205,7 @@ export default function Filter({filterRecipes}) {
 							onChange={(event, newValue) => setRating(newValue)}
 							/>
 					</AccordionDetails>
-				</Accordion>
+				</Accordion> */}
 				<Accordion expanded={open4} onChange={() => setOpen4(!open4)}>
 					<AccordionSummary expandIcon={open4 ? <MinusIcon /> : <AddIcon/>}>
 						<Typography variant="h6" fontSize={16}>Time</Typography>

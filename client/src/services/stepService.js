@@ -1,12 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import useSound from 'use-sound';
 
 export default () => {
 
     const [listening, setListening] = useState(false);
     const [lastInterimTranscript, setLastInterimTranscript] = useState('');
     // const { transcript, resetTranscript } = useSpeechRecognition({ commands });
+
+    const [playSound] = useSound(
+		'/ding.wav',
+		{ volume: 0.25 }
+	);
 
     const { transcript, resetTranscript, interimTranscript, listening: isRecognitionListening } = useSpeechRecognition();
 
@@ -55,6 +61,7 @@ export default () => {
             let command = lastInterimTranscript
             resetTranscript();
             console.log(command);
+            playSound();
             fetch('http://localhost:5001/text-input', {
                 method: 'POST',
                 headers: {
