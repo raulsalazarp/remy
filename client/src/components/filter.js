@@ -110,36 +110,36 @@ export default function Filter({filterRecipes}) {
 						<Grid container>
 							<Grid item xs={6}>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("type", "breakfast", e.target.checked)}/>}
+									control={<Checkbox id="breakfast" onChange={e => formatFilter("type", "breakfast", e.target.checked)}/>}
 									label="Breakfast"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("type", "main course", e.target.checked)}/>}
+									control={<Checkbox id="main course" onChange={e => formatFilter("type", "main course", e.target.checked)}/>}
 									label="Main Course"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("type", "side dish", e.target.checked)}/>}
+									control={<Checkbox id="side dish" onChange={e => formatFilter("type", "side dish", e.target.checked)}/>}
 									label="Side Dish"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("type", "dessert", e.target.checked)}/>}
+									control={<Checkbox id="dessert" onChange={e => formatFilter("type", "dessert", e.target.checked)}/>}
 									label="Dessert"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("type", "salad", e.target.checked)}/>}
+									control={<Checkbox id="salad" onChange={e => formatFilter("type", "salad", e.target.checked)}/>}
 									label="Salad"/>
 							</Grid>
 							<Grid item xs={6}>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("type", "snack", e.target.checked)}/>}
+									control={<Checkbox id="snack" onChange={e => formatFilter("type", "snack", e.target.checked)}/>}
 									label="Snack"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("type", "appetizer", e.target.checked)}/>}
+									control={<Checkbox id="appetizer" onChange={e => formatFilter("type", "appetizer", e.target.checked)}/>}
 									label="Appetizer"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("type", "drink", e.target.checked)}/>}
+									control={<Checkbox id="drink" onChange={e => formatFilter("type", "drink", e.target.checked)}/>}
 									label="Drink"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("type", "bread", e.target.checked)}/>}
+									control={<Checkbox id="bread" onChange={e => formatFilter("type", "bread", e.target.checked)}/>}
 									label="Bread"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("type", "soup", e.target.checked)}/>}
+									control={<Checkbox id="soup" onChange={e => formatFilter("type", "soup", e.target.checked)}/>}
 									label="Soup"/>
 							</Grid>
 						</Grid>
@@ -153,42 +153,42 @@ export default function Filter({filterRecipes}) {
 						<Grid container>
 							<Grid item xs={6}>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("cuisine", "american", e.target.checked)}/>}
+									control={<Checkbox id="american" onChange={e => formatFilter("cuisine", "american", e.target.checked)}/>}
 									label="American"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("cuisine", "mexican", e.target.checked)}/>}
+									control={<Checkbox id="mexican" onChange={e => formatFilter("cuisine", "mexican", e.target.checked)}/>}
 									label="Mexican"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("cuisine", "italian", e.target.checked)}/>} 
+									control={<Checkbox id="italian" onChange={e => formatFilter("cuisine", "italian", e.target.checked)}/>} 
 									label="Italian"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("cuisine", "chinese", e.target.checked)}/>}
+									control={<Checkbox id="chinese" onChange={e => formatFilter("cuisine", "chinese", e.target.checked)}/>}
 									label="Chinese"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("cuisine", "indian", e.target.checked)}/>}
+									control={<Checkbox id="indian" onChange={e => formatFilter("cuisine", "indian", e.target.checked)}/>}
 									label="Indian"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("cuisine", "cajun", e.target.checked)}/>}
+									control={<Checkbox id="cajun" onChange={e => formatFilter("cuisine", "cajun", e.target.checked)}/>}
 									label="Cajun"/>
 							</Grid>
 							<Grid item xs={6}>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("cuisine", "mediterranean", e.target.checked)}/>}
+									control={<Checkbox id="mediterranean" onChange={e => formatFilter("cuisine", "mediterranean", e.target.checked)}/>}
 									label="Mediterranean"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("cuisine", "thai", e.target.checked)}/>}
+									control={<Checkbox id="thai" onChange={e => formatFilter("cuisine", "thai", e.target.checked)}/>}
 									label="Thai"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("cuisine", "caribbean", e.target.checked)}/>}
+									control={<Checkbox id="caribbean" onChange={e => formatFilter("cuisine", "caribbean", e.target.checked)}/>}
 									label="Caribbean"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("cuisine", "japanese", e.target.checked)}/>}
+									control={<Checkbox id="japanese" onChange={e => formatFilter("cuisine", "japanese", e.target.checked)}/>}
 									label="Japanese"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("cuisine", "french", e.target.checked)}/>}
+									control={<Checkbox id="french" onChange={e => formatFilter("cuisine", "french", e.target.checked)}/>}
 									label="French"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("cuisine", "greek", e.target.checked)}/>}
+									control={<Checkbox id="greek" onChange={e => formatFilter("cuisine", "greek", e.target.checked)}/>}
 									label="Greek"/>
 							</Grid>
 						</Grid>
@@ -212,6 +212,7 @@ export default function Filter({filterRecipes}) {
 					</AccordionSummary>
 					<AccordionDetails>
 						<Slider
+							id="maxReadyTime"
 							value={time}
 							onChange={(e, val) => setTime(val)}
 							onChangeCommitted={() => formatFilter("maxReadyTime", time, true)}
@@ -235,30 +236,30 @@ export default function Filter({filterRecipes}) {
 						<Grid container>
 							<Grid item xs={6}>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("intolerances", "gluten", e.target.checked)}/>}
+									control={<Checkbox id="gluten" onChange={e => formatFilter("intolerances", "gluten", e.target.checked)}/>}
 									label="Gluten Free"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("intolerances", "dairy", e.target.checked)}/>}
+									control={<Checkbox id="dairy" onChange={e => formatFilter("intolerances", "dairy", e.target.checked)}/>}
 									label="Dairy Free"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("diet", "vegetarian", e.target.checked)}/>}
+									control={<Checkbox id="vegetarian" onChange={e => formatFilter("diet", "vegetarian", e.target.checked)}/>}
 									label="Vegetarian"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("diet", "vegan", e.target.checked)}/>}
+									control={<Checkbox id="vegan" onChange={e => formatFilter("diet", "vegan", e.target.checked)}/>}
 									label="Vegan"/>
 							</Grid>
 							<Grid item xs={6}>
 							<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("diet", "kosher", e.target.checked)}/>}
+									control={<Checkbox id="kosher" onChange={e => formatFilter("diet", "kosher", e.target.checked)}/>}
 									label="Kosher"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("diet", "ketogenic", e.target.checked)}/>}
+									control={<Checkbox id="ketogenic" onChange={e => formatFilter("diet", "ketogenic", e.target.checked)}/>}
 									label="Keto"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("diet", "pescetarian", e.target.checked)}/>}
+									control={<Checkbox id="pescetarian" onChange={e => formatFilter("diet", "pescetarian", e.target.checked)}/>}
 									label="Pescetarian"/>
 								<FormControlLabel
-									control={<Checkbox onChange={e => formatFilter("intolerances", "tree nut", e.target.checked)}/>}
+									control={<Checkbox id="tree nut" onChange={e => formatFilter("intolerances", "tree nut", e.target.checked)}/>}
 									label="Nut Free"/>
 							</Grid>
 						</Grid>

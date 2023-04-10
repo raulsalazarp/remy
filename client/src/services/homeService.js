@@ -11,6 +11,14 @@ export default () => {
   	const [loading, setLoading] = useState(true);
 	const [lastInterimTranscript, setLastInterimTranscript] = useState('');
 	const { transcript, resetTranscript, interimTranscript, listening: isRecognitionListening } = useSpeechRecognition({commands});
+	const [filters, setFilters] = useState({
+		type: [],
+		cuisine: [],
+		ingredients: [],
+		diet: [],
+		intolerances: [],
+		maxReadyTime: 120
+	});
 
 	const [playSound] = useSound(
 		'/ding.wav',
@@ -18,6 +26,7 @@ export default () => {
 	);
 
 	const filterRecipes = async (json) => {
+		setFilters(json);
 		const queryParams = new URLSearchParams(json);
 		setLoading(true);
 		const res = await fetch('http://localhost:5001/spoonacular/recipes?' + queryParams);
@@ -36,18 +45,26 @@ export default () => {
 		console.log('Transcript:', transcript);
 	};
 
-	const addFilter = (param, value) => {
-		//lauren add here 
-		return;
+	const removeFilters = () => {
+		filters.type.forEach(filt => document.getElementById(filt).click());
+		filters.cuisine.forEach(filt => document.getElementById(filt).click());
+		filters.ingredients.forEach(filt => document.getElementById(filt).click());
+		filters.diet.forEach(filt => document.getElementById(filt).click());
+		filters.intolerances.forEach(filt => document.getElementById(filt).click());
 	}
 
 	
 	const handleIntent = (intent, parameters) => {
+		removeFilters();
 		console.log("intent: XX_" + intent + "_XX");
-		// console.log("parameters: ", parameters);
-		let cuisine = parameters.cuisine.stringValue
-		let ingredients = parameters.ingredients.stringValue
-		let mealType = parameters.mealType.stringValue
+		console.log("parameters: ", parameters);
+		let cuisine = parameters.cuisine.stringValue;
+		let ingredients = parameters.ingredients.stringValue;
+		let mealType = parameters.mealType.stringValue;
+		//TODO once Raul makes these parameters lists, the following will also need to be adjusted
+		document.getElementById(cuisine.toLowerCase()).click();
+		document.getElementById(ingredients).click();
+		document.getElementById(mealType).click();
 		let filters = {
 			type: [mealType],
 			cuisine: [cuisine],
@@ -60,7 +77,6 @@ export default () => {
 		console.log("ingredients: "+ingredients)
 		console.log("mealType: "+mealType)
 		filterRecipes(filters);
-		//what to do with these now?
 	}
 
 	useEffect(() => {
