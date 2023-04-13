@@ -142,7 +142,10 @@ app.post("/text-input", async (req, res) => {
             console.log("intent:")
             latestIntent = intent
             console.log(latestIntent)
-            console.log(result.parameters.fields.cuisine.stringValue)
+            // for(let i = 0; i < result.parameters.fields.cuisine.listValue.values.length;i++){
+
+            // }
+            console.log(result.parameters.fields.cuisine.listValue.values)
             console.log(result.parameters.fields.mealType.stringValue)
             console.log(result.parameters.fields.ingredients.stringValue)
         }

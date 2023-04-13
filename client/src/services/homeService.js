@@ -58,14 +58,30 @@ export default () => {
 		removeFilters();
 		console.log("intent: XX_" + intent + "_XX");
 		console.log("parameters: ", parameters);
-		let cuisine = parameters.cuisine.stringValue;
+		let cuisine = []
+		let len = parameters.cuisine.listValue.values.length;
+		for(let i = 0; i < len; i++){
+			cuisine.push(parameters.cuisine.listValue.values[i]);
+		}
+		console.log(cuisine)
+
 		let ingredients = parameters.ingredients.stringValue;
 		let mealType = parameters.mealType.stringValue;
 		//TODO once Raul makes these parameters lists, the following will also need to be adjusted
-		document.getElementById(cuisine.toLowerCase()).click();
+		cuisine.forEach(entry => document.getElementById(entry.stringValue.toLowerCase()).click());
+		// document.getElementById(cuisine.toLowerCase()).click();
 		document.getElementById(ingredients).click();
 		document.getElementById(mealType).click();
 		let filters = {
+			type: [],
+			cuisine: [],
+			ingredients: [],
+			diet: [],
+			intolerances: [],
+			maxReadyTime: 120
+		}
+		filterRecipes(filters);
+		filters = {
 			type: [mealType],
 			cuisine: [cuisine],
 			ingredients: [],
