@@ -33,7 +33,7 @@ const StyledRating = styled(Rating) (({ theme }) => ({
 	  }
   }));
 
-export default function Filter({filterRecipes}) {
+export default function Filter({filters, setFilters, filterRecipes}) {
 
 	const formatFilter = (category, filt, apply) => {
 		// if (apply) {
@@ -55,9 +55,10 @@ export default function Filter({filterRecipes}) {
 			if (index !== -1) {
 				temp[category].splice(index, 1);
 			}
+			temp.forEach(x => console.log(x))
 			setFilters(temp);
 		}
-		filterRecipes(filters);
+		filterRecipes();
 	}
 
 	const [open1, setOpen1] = useState(false);
@@ -67,14 +68,6 @@ export default function Filter({filterRecipes}) {
 	const [open5, setOpen5] = useState(false);
 	const [rating, setRating] = useState(0);
 	const [time, setTime] = useState(120);
-	const [filters, setFilters] = useState({
-		type: [],
-		cuisine: [],
-		ingredients: [],
-		diet: [],
-		intolerances: [],
-		maxReadyTime: 120
-	});
 
   	return (
       	<Drawer
@@ -271,5 +264,14 @@ export default function Filter({filterRecipes}) {
 }
 
 Filter.propTypes = {
+	filters: shape({
+		type: arrayOf(string),
+		cuisine: arrayOf(string),
+		ingredients: arrayOf(string),
+		diet: arrayOf(string),
+		intolerances: arrayOf(string),
+		maxReadyTime: number
+	}),
+	setFilters: func,
 	filterRecipes: func
 }

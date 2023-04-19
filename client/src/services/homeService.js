@@ -25,9 +25,8 @@ export default () => {
 		{ volume: 0.25 }
 	);
 
-	const filterRecipes = async (json) => {
-		setFilters(json);
-		const queryParams = new URLSearchParams(json);
+	const filterRecipes = async () => {
+		const queryParams = new URLSearchParams(filters);
 		setLoading(true);
 		const res = await fetch('http://localhost:5001/spoonacular/recipes?' + queryParams);
 		const data = await res.json();
@@ -46,33 +45,12 @@ export default () => {
 	};
 
 	const removeFilters = () => {
-		filters.type.forEach(filt => document.getElementById(filt).click());
-		filters.cuisine.forEach(filt => document.getElementById(filt).click());
-		filters.ingredients.forEach(filt => document.getElementById(filt).click());
-		filters.diet.forEach(filt => document.getElementById(filt).click());
-		filters.intolerances.forEach(filt => document.getElementById(filt).click());
-	}
-
-	
-	const handleIntent = (intent, parameters) => {
-		removeFilters();
-		console.log("intent: XX_" + intent + "_XX");
-		console.log("parameters: ", parameters);
-		let cuisine = []
-		let len = parameters.cuisine.listValue.values.length;
-		for(let i = 0; i < len; i++){
-			cuisine.push(parameters.cuisine.listValue.values[i]);
-		}
-		console.log(cuisine)
-
-		let ingredients = parameters.ingredients.stringValue;
-		let mealType = parameters.mealType.stringValue;
-		//TODO once Raul makes these parameters lists, the following will also need to be adjusted
-		cuisine.forEach(entry => document.getElementById(entry.stringValue.toLowerCase()).click());
-		// document.getElementById(cuisine.toLowerCase()).click();
-		document.getElementById(ingredients).click();
-		document.getElementById(mealType).click();
-		let filters = {
+		filters.type.forEach(filt => document.getElementById(filt) ? document.getElementById(filt).click() : null);
+		filters.cuisine.forEach(filt => document.getElementById(filt) ? document.getElementById(filt).click() : null);
+		filters.ingredients.forEach(filt => document.getElementById(filt) ? document.getElementById(filt).click() : null);
+		filters.diet.forEach(filt => document.getElementById(filt) ? document.getElementById(filt).click() : null);
+		filters.intolerances.forEach(filt => document.getElementById(filt) ? document.getElementById(filt).click() : null);
+		const filts = {
 			type: [],
 			cuisine: [],
 			ingredients: [],
@@ -80,19 +58,51 @@ export default () => {
 			intolerances: [],
 			maxReadyTime: 120
 		}
-		filterRecipes(filters);
-		filters = {
-			type: [mealType],
-			cuisine: [cuisine],
-			ingredients: [],
-			diet: [ingredients],
+		setFilters(filts);
+		console.log("After removing filters:")
+		filters.cuisine.forEach(x => console.log(x));
+	}
+
+	
+	const handleIntent = (intent, parameters) => {
+		console.log("Before removing filters:")
+		filters.cuisine.forEach(x => console.log(x));
+		removeFilters();
+		console.log("intent: XX_" + intent + "_XX");
+		console.log("parameters: ", parameters);
+		let cuisine = []
+		let len = parameters.cuisine.listValue.values.length;
+		for(let i = 0; i < len; i++){
+			cuisine.push(parameters.cuisine.listValue.values[i].stringValue.toLowerCase());
+		}
+		let ingredients = []
+		let len2 = parameters.ingredients.listValue.values.length;
+		for(let i = 0; i < len2; i++){
+			ingredients.push(parameters.ingredients.listValue.values[i].stringValue.toLowerCase());
+		}
+		let mealType = []
+		let len3 = parameters.mealType.listValue.values.length;
+		for(let i = 0; i < len3; i++){
+			mealType.push(parameters.mealType.listValue.values[i].stringValue.toLowerCase());
+		}
+		cuisine.forEach(entry => document.getElementById(entry).click());
+		ingredients.forEach(entry => document.getElementById(entry).click());
+		mealType.forEach(entry => document.getElementById(entry).click());
+		const filts = {
+			type: mealType,
+			cuisine: cuisine,
+			ingredients: ingredients,
+			diet: [],
 			intolerances: [],
 			maxReadyTime: 120
 		}
 		console.log("cuisine: "+cuisine)
 		console.log("ingredients: "+ingredients)
 		console.log("mealType: "+mealType)
-		filterRecipes(filters);
+		setFilters(filts);
+		console.log("After setting filters:")
+		filters.cuisine.forEach(x => console.log(x));
+		filterRecipes();
 	}
 
 	useEffect(() => {
@@ -146,5 +156,5 @@ export default () => {
 		}
   	}, []);
 
-  	return [recipes, loading, filterRecipes, transcript, interimTranscript];
+  	return [recipes, loading, filters, setFilters, filterRecipes, transcript, interimTranscript];
 };

@@ -9,9 +9,9 @@ const { ObjectId } = require("mongodb");
 const axios = require('axios');
 
 const PORT = process.env.PORT || 5001;
-//const APIKEY = 'c522fa0129cc40008265c1309ab94a22'
-const APIKEY = 'd19c08ad32394f988780a1fb40331452'; 
-// const APIKEY = '6cdaa136795642c2a701df6a530f68d1';
+const APIKEY = 'c522fa0129cc40008265c1309ab94a22'
+//const APIKEY = 'd19c08ad32394f988780a1fb40331452'; 
+//const APIKEY = '6cdaa136795642c2a701df6a530f68d1';
 
 latestIntent = ""
 
