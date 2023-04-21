@@ -21,7 +21,7 @@ export default function Home() {
     const [sortby, setSortby] = useState("Reviews");
     const dummyRecipes = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
     const [recipes, loading, filters, setFilters, filterRecipes, transcript, interimTranscript, 
-        time, setTime, open1, setOpen1, open2, setOpen2, open4, setOpen4, open5, setOpen5] = useService();
+        time, setTime, open1, setOpen1, open2, setOpen2, open4, setOpen4, open5, setOpen5, search] = useService();
 
     return (
         <>
@@ -47,7 +47,7 @@ export default function Home() {
                                             </InputAdornment>
                                             }
                                             placeholder="Search"
-                                            onKeyDown={(e) => {if (e.key === "Enter") console.log("send search request to server here using e.target.value")}}
+                                            onKeyDown={(e) => {if (e.key === "Enter") search(e.target.value)}}
                                         />
                                     </FormControl>
                                     <FormControl size="small">

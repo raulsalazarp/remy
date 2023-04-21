@@ -13,7 +13,8 @@ const PORT = process.env.PORT || 5001;
 // const APIKEY = 'd19c08ad32394f988780a1fb40331452'; 
 //const APIKEY = '6cdaa136795642c2a701df6a530f68d1';
 //const APIKEY = 'f51fb38796c04f61a417d3f3de051c30';
-const APIKEY = '7106633df8e34ec58b60cf72f7c040dd';
+//const APIKEY = '7106633df8e34ec58b60cf72f7c040dd';
+const APIKEY = '2adfb9ae81cd438ca639b857e3f574f3';
 
 latestIntent = ""
 

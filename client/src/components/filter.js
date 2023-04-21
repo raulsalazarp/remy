@@ -235,8 +235,8 @@ export default function Filter({filters, setFilters, filterRecipes, time, setTim
 							</Grid>
 							<Grid item xs={6}>
 							<FormControlLabel
-									control={<Checkbox id="kosher" onChange={e => formatFilter("diet", "kosher", e.target.checked)}/>}
-									label="Kosher"/>
+									control={<Checkbox id="shellfish" onChange={e => formatFilter("intolerances", "shellfish", e.target.checked)}/>}
+									label="Shellfish Free"/>
 								<FormControlLabel
 									control={<Checkbox id="ketogenic" onChange={e => formatFilter("diet", "ketogenic", e.target.checked)}/>}
 									label="Keto"/>

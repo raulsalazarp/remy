@@ -24,6 +24,20 @@ export default () => {
 		maxReadyTime: 120
 	});
 
+	const search = async (query) => {
+		console.log(query);
+		await fetch('http://localhost:5001/text-input', {
+			method: 'POST',
+			headers: {
+			'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ query })
+		})
+		.then(response => response.json())  
+		.then(data => handleIntent(data.intent, data.parameters)) 
+		.then(playSound())
+	}
+
 	const [playSound] = useSound(
 		'/ding.wav',
 		{ volume: 0.25 }
@@ -177,5 +191,5 @@ export default () => {
   	}, []);
 
   	return [recipes, loading, filters, setFilters, filterRecipes, transcript, interimTranscript, 
-		time, setTime, open1, setOpen1, open2, setOpen2, open4, setOpen4, open5, setOpen5];
+		time, setTime, open1, setOpen1, open2, setOpen2, open4, setOpen4, open5, setOpen5, search];
 };
