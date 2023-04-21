@@ -9,6 +9,7 @@ export default () => {
 
   	const [recipes, setRecipes] = useState([]);
   	const [loading, setLoading] = useState(true);
+	  const [time, setTime] = useState(120);
 	const [lastInterimTranscript, setLastInterimTranscript] = useState('');
 	const { transcript, resetTranscript, interimTranscript, listening: isRecognitionListening } = useSpeechRecognition({commands});
 	const [filters, setFilters] = useState({
@@ -93,8 +94,8 @@ export default () => {
 		mealType.forEach(entry => document.getElementById(entry).click());
 		diet.forEach(entry => document.getElementById(entry).click());
 		intolerances.forEach(entry => document.getElementById(entry).click());
-		document.getElementById("maxReadyTime").value = parseInt(parameters.maxReadyTime.stringValue);
-				
+		setTime(parseInt(parameters.maxReadyTime.stringValue));
+		
 		const filts = {
 			type: mealType,
 			cuisine: cuisine,
@@ -162,5 +163,5 @@ export default () => {
 		}
   	}, []);
 
-  	return [recipes, loading, filters, setFilters, filterRecipes, transcript, interimTranscript];
+  	return [recipes, loading, filters, setFilters, filterRecipes, transcript, interimTranscript, time, setTime];
 };
