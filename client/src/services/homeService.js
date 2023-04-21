@@ -70,35 +70,65 @@ export default () => {
 		removeFilters();
 		console.log("intent: XX_" + intent + "_XX");
 		console.log("parameters: ", parameters);
+		//cuisine 
 		let cuisine = []
 		let len = parameters.cuisine.listValue.values.length;
 		for(let i = 0; i < len; i++){
 			cuisine.push(parameters.cuisine.listValue.values[i].stringValue.toLowerCase());
 		}
+		//ingredients
 		let ingredients = []
 		let len2 = parameters.ingredients.listValue.values.length;
 		for(let i = 0; i < len2; i++){
 			ingredients.push(parameters.ingredients.listValue.values[i].stringValue.toLowerCase());
 		}
+		//meal type
 		let mealType = []
 		let len3 = parameters.mealType.listValue.values.length;
 		for(let i = 0; i < len3; i++){
 			mealType.push(parameters.mealType.listValue.values[i].stringValue.toLowerCase());
 		}
+		//diet 
+		let diet = []
+		let len4 = parameters.diet.listValue.values.length;
+		for(let i = 0; i < len4; i++){
+			cuisine.push(parameters.diet.listValue.values[i].stringValue.toLowerCase());
+		}
+		//intolerances 
+		let intolerances = []
+		let len5 = parameters.intolerances.listValue.values.length;
+		for(let i = 0; i < len5; i++){
+			cuisine.push(parameters.intolerances.listValue.values[i].stringValue.toLowerCase());
+		}
+		//maxreadytime
+		// let maxReadyTime = "120";
+		let maxReadyTime = 120;
+		if(parameters.maxReadyTime.stringValue){
+			// maxReadyTime = parameters.maxReadyTime.stringValue;
+			maxReadyTime = parseInt(parameters.maxReadyTime.stringValue);
+		}
+		 
+
+
+
 		cuisine.forEach(entry => document.getElementById(entry).click());
 		ingredients.forEach(entry => document.getElementById(entry).click());
 		mealType.forEach(entry => document.getElementById(entry).click());
+		
 		const filts = {
 			type: mealType,
 			cuisine: cuisine,
 			ingredients: ingredients,
-			diet: [],
-			intolerances: [],
-			maxReadyTime: 120
+			diet: diet,
+			intolerances: intolerances,
+			maxReadyTime: maxReadyTime
 		}
 		console.log("cuisine: "+cuisine)
 		console.log("ingredients: "+ingredients)
 		console.log("mealType: "+mealType)
+		console.log("diet: "+diet)
+		console.log("tolerances: "+intolerances)
+		console.log("maxReadyTime: "+maxReadyTime)
 		setFilters(filts);
 		console.log("After setting filters:")
 		filters.cuisine.forEach(x => console.log(x));
