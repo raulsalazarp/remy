@@ -20,13 +20,16 @@ export default function Home() {
 
     const [sortby, setSortby] = useState("Reviews");
     const dummyRecipes = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
-    const [recipes, loading, filters, setFilters, filterRecipes, transcript, interimTranscript, time, setTime] = useService();
+    const [recipes, loading, filters, setFilters, filterRecipes, transcript, interimTranscript, 
+        time, setTime, open1, setOpen1, open2, setOpen2, open4, setOpen4, open5, setOpen5] = useService();
 
     return (
         <>
             {console.log(interimTranscript)}
             <Navbar />
-            <Filter filters={filters} setFilters={(data) => setFilters(data)} filterRecipes={() => filterRecipes()} time={time} setTime={(data) => setTime(data)}/>
+            <Filter filters={filters} setFilters={(data) => setFilters(data)} filterRecipes={() => filterRecipes()} time={time} setTime={(data) => setTime(data)}
+                open1={open1} setOpen1={(data) => setOpen1(data)} open2={open2} setOpen2={(data) => setOpen2(data)}
+                open4={open4} setOpen4={(data) => setOpen4(data)} open5={open5} setOpen5={(data) => setOpen5(data)}/>
             {loading ? <Loading left='60%' right='40%'/> :
             <Main>
                 <Grid container>

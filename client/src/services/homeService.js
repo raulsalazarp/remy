@@ -9,7 +9,11 @@ export default () => {
 
   	const [recipes, setRecipes] = useState([]);
   	const [loading, setLoading] = useState(true);
-	  const [time, setTime] = useState(120);
+	const [time, setTime] = useState(120);
+	const [open1, setOpen1] = useState(false);
+	const [open2, setOpen2] = useState(false);
+	const [open4, setOpen4] = useState(false);
+	const [open5, setOpen5] = useState(false);
 	const [lastInterimTranscript, setLastInterimTranscript] = useState('');
 	const { transcript, resetTranscript, interimTranscript, listening: isRecognitionListening } = useSpeechRecognition({commands});
 	const [filters, setFilters] = useState({
@@ -62,9 +66,11 @@ export default () => {
 
 	
 	const handleIntent = (intent, parameters) => {
-		removeFilters();
 		console.log("intent: XX_" + intent + "_XX");
 		console.log("parameters: ", parameters);
+		if (intent !== "Command Not Recognized") {
+			removeFilters();
+		}
 		//cuisine 
 		let cuisine = []
 		let len = parameters.cuisine.listValue.values.length;
@@ -89,7 +95,14 @@ export default () => {
 		for(let i = 0; i < len5; i++){
 			intolerances.push(parameters.intolerances.listValue.values[i].stringValue.toLowerCase());
 		}
+
+		// Open accordians
+		if (len > 0) { setOpen2(true) } else { setOpen2(false) }
+		if (len3 > 0) { setOpen1(true) } else { setOpen1(false) }
+		if (len4 > 0 || len5 > 0) { setOpen5(true) } else { setOpen2(false) }
+		if (parseInt(parameters.maxReadyTime.stringValue) !== 120) { setOpen4(true) } else { setOpen4(false) }
 		 
+		// Update checkboxes to match
 		cuisine.forEach(entry => document.getElementById(entry).click());
 		mealType.forEach(entry => document.getElementById(entry).click());
 		diet.forEach(entry => document.getElementById(entry).click());
@@ -163,5 +176,6 @@ export default () => {
 		}
   	}, []);
 
-  	return [recipes, loading, filters, setFilters, filterRecipes, transcript, interimTranscript, time, setTime];
+  	return [recipes, loading, filters, setFilters, filterRecipes, transcript, interimTranscript, 
+		time, setTime, open1, setOpen1, open2, setOpen2, open4, setOpen4, open5, setOpen5];
 };

@@ -33,7 +33,7 @@ const StyledRating = styled(Rating) (({ theme }) => ({
 	  }
   }));
 
-export default function Filter({filters, setFilters, filterRecipes, time, setTime}) {
+export default function Filter({filters, setFilters, filterRecipes, time, setTime, open1, setOpen1, open2, setOpen2, open4, setOpen4, open5, setOpen5}) {
 
 	const formatFilter = (category, filt, apply) => {
 		// if (apply) {
@@ -60,13 +60,6 @@ export default function Filter({filters, setFilters, filterRecipes, time, setTim
 		}
 		filterRecipes();
 	}
-
-	const [open1, setOpen1] = useState(false);
-	const [open2, setOpen2] = useState(false);
-	const [open3, setOpen3] = useState(false);
-	const [open4, setOpen4] = useState(false);
-	const [open5, setOpen5] = useState(false);
-	const [rating, setRating] = useState(0);
 
   	return (
       	<Drawer
@@ -273,5 +266,13 @@ Filter.propTypes = {
 	setFilters: func,
 	filterRecipes: func,
 	time: number,
-	setTime: func
+	setTime: func,
+	open1: bool,
+	setOpen1: func,
+	open2: bool,
+	setOpen2: func,
+	open4: bool,
+	setOpen4: func, 
+	open5: bool,
+	setOpen5: func
 }
