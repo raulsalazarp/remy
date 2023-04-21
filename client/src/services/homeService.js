@@ -99,7 +99,7 @@ export default () => {
 		// Open accordians
 		if (len > 0) { setOpen2(true) } else { setOpen2(false) }
 		if (len3 > 0) { setOpen1(true) } else { setOpen1(false) }
-		if (len4 > 0 || len5 > 0) { setOpen5(true) } else { setOpen2(false) }
+		if (len4 > 0 || len5 > 0) { setOpen5(true) } else { setOpen5(false) }
 		if (parseInt(parameters.maxReadyTime.stringValue) !== 120) { setOpen4(true) } else { setOpen4(false) }
 		 
 		// Update checkboxes to match
