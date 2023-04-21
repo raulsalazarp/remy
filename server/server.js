@@ -50,7 +50,7 @@ app.get('/recipes/:id', async (req, res) => {
 
 app.get('/spoonacular/recipes', async (req, res) => {
     try {
-        const { cuisine, ingredients, diet, intolerances, maxReadyTime, type } = req.query;
+        const { cuisine, diet, intolerances, maxReadyTime, type } = req.query;
         // build the params object with optional search constraints
         const params = {
             apiKey: APIKEY,
@@ -60,7 +60,6 @@ app.get('/spoonacular/recipes', async (req, res) => {
             number: 50 // limit the number of results
         };
         if (cuisine) params.cuisine = cuisine;
-        if (ingredients) params.includeIngredients = ingredients;
         if (diet) params.diet = diet;
         if (intolerances) params.intolerances = intolerances;
         if (maxReadyTime) params.maxReadyTime = maxReadyTime;
@@ -132,9 +131,6 @@ app.post("/text-input", async (req, res) => {
     try {
         const responses = await sessionClient.detectIntent(request);
         const result = responses[0].queryResult;
-        // console.log(result.parameters.fields.cuisine.stringValue)
-        // console.log(result.parameters.fields.mealType.stringValue)
-        // console.log(result.parameters.fields.ingredients.stringValue)
         const intent = result.intent.displayName;
         
         console.log("\n")
@@ -148,7 +144,6 @@ app.post("/text-input", async (req, res) => {
             // }
             console.log(result.parameters.fields.cuisine.listValue.values)
             console.log(result.parameters.fields.mealType.stringValue)
-            console.log(result.parameters.fields.ingredients.stringValue)
         }
         else{
             res.status(200).send({ intent: intent });

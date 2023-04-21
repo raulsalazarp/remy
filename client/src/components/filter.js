@@ -95,7 +95,7 @@ export default function Filter({filters, setFilters, filterRecipes}) {
 					<img src="/Speak.png" height={20}/>
 				</Box>
 				<Divider/>
-				<Accordion expanded={open1} onChange={() => setOpen1(!open1)}>
+				<Accordion id="mealType" expanded={open1} onChange={() => setOpen1(!open1)}>
 					<AccordionSummary expandIcon={open1 ? <MinusIcon /> : <AddIcon/>}>
 						<Typography variant="h6" fontSize={16}>Meal</Typography>
 					</AccordionSummary>
@@ -138,7 +138,7 @@ export default function Filter({filters, setFilters, filterRecipes}) {
 						</Grid>
 					</AccordionDetails>
 				</Accordion>
-				<Accordion expanded={open2} onChange={() => setOpen2(!open2)}>
+				<Accordion id="cuisine" expanded={open2} onChange={() => setOpen2(!open2)}>
 					<AccordionSummary expandIcon={open2 ? <MinusIcon /> : <AddIcon/>}>
 						<Typography variant="h6" fontSize={16}>Cuisine</Typography>
 					</AccordionSummary>
@@ -199,7 +199,7 @@ export default function Filter({filters, setFilters, filterRecipes}) {
 							/>
 					</AccordionDetails>
 				</Accordion> */}
-				<Accordion expanded={open4} onChange={() => setOpen4(!open4)}>
+				<Accordion id="maxReadyTime" expanded={open4} onChange={() => setOpen4(!open4)}>
 					<AccordionSummary expandIcon={open4 ? <MinusIcon /> : <AddIcon/>}>
 						<Typography variant="h6" fontSize={16}>Time</Typography>
 					</AccordionSummary>
@@ -221,7 +221,7 @@ export default function Filter({filters, setFilters, filterRecipes}) {
 						</Box>
 					</AccordionDetails>
 				</Accordion>
-				<Accordion expanded={open5} onChange={() => setOpen5(!open5)}>
+				<Accordion id="diet" expanded={open5} onChange={() => setOpen5(!open5)}>
 					<AccordionSummary expandIcon={open5 ? <MinusIcon /> : <AddIcon/>}>
 						<Typography variant="h6" fontSize={16}>Ingredients</Typography>
 					</AccordionSummary>
