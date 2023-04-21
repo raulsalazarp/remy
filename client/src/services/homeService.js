@@ -35,7 +35,6 @@ export default () => {
 		})
 		.then(response => response.json())  
 		.then(data => handleIntent(data.intent, data.parameters)) 
-		.then(playSound())
 	}
 
 	const [playSound] = useSound(
@@ -84,6 +83,7 @@ export default () => {
 		console.log("parameters: ", parameters);
 		if (intent !== "Command Not Recognized") {
 			removeFilters();
+			playSound();
 		}
 		//cuisine 
 		let cuisine = []
@@ -156,7 +156,6 @@ export default () => {
             })
             .then(response => response.json())  
 			.then(data => handleIntent(data.intent, data.parameters)) 
-			.then(playSound())
     
           // Clear the last interim transcript
           setLastInterimTranscript('');

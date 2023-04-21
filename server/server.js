@@ -14,7 +14,12 @@ const PORT = process.env.PORT || 5001;
 //const APIKEY = '6cdaa136795642c2a701df6a530f68d1';
 //const APIKEY = 'f51fb38796c04f61a417d3f3de051c30';
 //const APIKEY = '7106633df8e34ec58b60cf72f7c040dd';
-const APIKEY = '2adfb9ae81cd438ca639b857e3f574f3';
+//const APIKEY = '2adfb9ae81cd438ca639b857e3f574f3';
+//const APIKEY = '2b9a9f7af97d4a02ab6dc03056bd8964';
+//const APIKEY = '0aca9515ecb342bfb1486b0bcc094b6c';
+//const APIKEY = 'a14650dc456e4e319a5c907f61fd4829';
+const APIKEY = '7e1498a66ffd4ed4a863c8bd58561c5b';
+//const APIKEY = 'c69dcb51fa6e4c2e8cbc4a61d15fa67e';
 
 latestIntent = ""
 
@@ -141,11 +146,11 @@ app.post("/text-input", async (req, res) => {
             console.log("intent:")
             latestIntent = intent
             console.log(latestIntent)
-            // for(let i = 0; i < result.parameters.fields.cuisine.listValue.values.length;i++){
-
-            // }
-            console.log(result.parameters.fields.cuisine.listValue.values)
             console.log(result.parameters.fields.mealType.stringValue)
+            console.log(result.parameters.fields.cuisine.listValue.values)
+            console.log(result.parameters.fields.diet.stringValue)
+            console.log(result.parameters.fields.intolerances.stringValue)
+            console.log(result.parameters.fields.maxReadyTime.stringValue)
         }
         else{
             res.status(200).send({ intent: intent });
